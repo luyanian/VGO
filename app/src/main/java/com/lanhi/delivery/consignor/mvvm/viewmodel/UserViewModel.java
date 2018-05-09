@@ -182,7 +182,8 @@ public class UserViewModel extends AndroidViewModel {
         ApiRepository.getStateCity(json).subscribe(observer);
     }
 
-    public void updateShopImg(File file, RObserver<BaseResponse> rObserver) {
+    public void updateShopImg(String filePath, RObserver<BaseResponse> rObserver) {
+        File file = new File(filePath);
         LoginResponse.UserInfoData userInfoData = (LoginResponse.UserInfoData) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
         if(userInfoData!=null){
             ApiRepository.updateShopImg(Common.getToken(),userInfoData.getId(),file).subscribe(rObserver);

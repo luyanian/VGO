@@ -6,6 +6,8 @@
     def versions = [:]
     versions.compileSdkVersion = 26
     versions.buildToolsVersion = "27.0.3"
+
+
     versions.lifecycle = "1.1.0"
     versions.persistence = "1.0.0"
     versions.support = "27.0.0"
@@ -36,7 +38,7 @@
     versions.logger = "2.1.1"
     versions.firebase = "11.4.2";
     versions.smartrefresh = "1.1.0-alpha-4";
-    versions.picture = "2.2.3";
+    versions.picture = "v2.2.3";
     versions.hotchemi = "3.2.0";
     def deps = [:]
 
@@ -125,7 +127,7 @@
     deps.smartrefresh = smartrefresh
 
     def picture = [:]
-    picture.selector = "com.github.LuckSiege.PictureSelector:picture_library:':$versions.picture"
+    picture.selector = "com.github.LuckSiege.PictureSelector:picture_library:$versions.picture"
     deps.picture = picture
 
     def hotchemi = [:]
