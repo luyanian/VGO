@@ -21,6 +21,7 @@
     <string name="order_state_complete">已完成</string>
 
     <string name="btn_sign_out">退出登录</string>
+    <string name="btn_save">保存</string>
     <string name="btn_next">下一步</string>
     <string name="btn_get_verificationv_code">获取验证码</string>
     <string name="btn_regist_and_sign_in">注册，并立即登录</string>
@@ -73,6 +74,9 @@
     <string name="txt_my_balance">我的余额</string>
     <string name="txt_balance_of_payments">收支明细</string>
     <string name="txt_user_shop_manage">店铺管理</string>
+    <string name="txt_user_shop_header_img">店铺头像</string>
+    <string name="txt_user_shop_name">店铺名称</string>
+    <string name="txt_user_shop_name_edit">编辑店铺名称</string>
     <string name="txt_user_accunt_manage">账号管理</string>
     <string name="txt_user_financial_manage">财务管理</string>
     <string name="txt_user_more">更多</string>

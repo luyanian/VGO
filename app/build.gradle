@@ -68,6 +68,11 @@ dependencies {
     annotationProcessor deps.lifecycle.compiler
     implementation deps.room.runtime
     annotationProcessor deps.room.compiler
+    //glide
+    implementation (deps.glide.core){
+        exclude group: "com.android.support"
+    }
+    annotationProcessor deps.glide.processor
     //router
     implementation deps.arouter.runtime
     annotationProcessor deps.arouter.compiler
@@ -88,7 +93,9 @@ dependencies {
     implementation deps.smartrefresh.refreshlayout
     implementation deps.smartrefresh.refreshheader
     //pic  selector
-    implementation deps.picture.selector
+    implementation (deps.picture.selector){
+        exclude group: "com.android.support"
+    }
     //permissionsdispatcher
     implementation deps.hotchemi.dispatcher
     annotationProcessor deps.hotchemi.processor

@@ -8,11 +8,15 @@ import com.lanhi.delivery.consignor.api.response.GetVertificationResponse;
 import com.lanhi.delivery.consignor.api.response.LoginResponse;
 import com.lanhi.delivery.consignor.api.response.OrderDetailResponse;
 import com.lanhi.delivery.consignor.api.response.OrderListResponse;
+import com.lanhi.delivery.consignor.api.response.UploadFileResponse;
+import com.lanhi.delivery.consignor.api.response.UserInfoResponse;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -71,11 +75,20 @@ public interface ApiService{
     Observable<OrderDetailResponse> getOrderDetail(@Field("str") String str);
 
     @FormUrlEncoded
+    @POST("appinterface/getuserinfo.shtml")
+    Observable<UserInfoResponse> getUserInfo(@Field("str") String str);
+
+    @Headers({
+            "Accept: application/json",
+    })
+    @Multipart
     @POST("appinterface/upload_user_img.shtml")
-    Observable<BaseResponse> uploadUserImg(@Field("userid") String str, @Field("myFile")Multipart multipart);
+    Observable<UploadFileResponse> uploadUserImg(@Part MultipartBody.Part myFile, @Part MultipartBody.Part tokenid, @Part MultipartBody.Part userid);
 
-
-    @FormUrlEncoded
+    @Headers({
+            "Accept: application/json",
+    })
+    @Multipart
     @POST("appinterface/upload_shop_img.shtml")
-    Observable<BaseResponse> uploadShopImg(@Field("tokenid") String tokenid,@Field("userid") String userid, @Part MultipartBody.Part part);
+    Observable<UploadFileResponse> uploadShopImg(@Part MultipartBody.Part myFile, @Part MultipartBody.Part tokenid, @Part MultipartBody.Part userid);
 }

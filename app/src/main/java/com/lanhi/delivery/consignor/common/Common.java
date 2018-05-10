@@ -1,9 +1,11 @@
 package com.lanhi.delivery.consignor.common;
 
+import android.content.Context;
 import android.view.View;
 
 import com.lanhi.delivery.consignor.App;
 import com.lanhi.delivery.consignor.R;
+import com.lanhi.delivery.consignor.api.ApiConstants;
 import com.lanhi.delivery.consignor.api.RSAEncryptor;
 import com.lanhi.delivery.consignor.api.response.LoginResponse;
 import com.lanhi.ryon.utils.mutils.SPUtils;
@@ -91,6 +93,10 @@ public class Common {
         }
 
         return stateString;
+    }
+
+    public static String getImageUrl(String path){
+        return ApiConstants.HOST+path;
     }
 
 }

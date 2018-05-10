@@ -2,9 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="com.lanhi.delivery.consignor.common.Common"/>
         <variable
             name="event"
             type="com.lanhi.delivery.consignor.common.OnEventListener"/>
+        <variable
+            name="imageUrl"
+            type="String"/>
+        <variable
+            name="shopeName"
+            type="String"/>
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,14 +35,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/txt_user_shop_manage"/>
+                android:text="@string/txt_user_shop_header_img"/>
             <ImageView
                 android:id="@+id/img_pic"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/pic_tx"/>
+                app:imageUrl="@{Common.getImageUrl(imageUrl)}"
+                app:error="@{@drawable/pic_tx}"
+                app:placeHolder="@{@drawable/pic_tx}"/>
         </RelativeLayout>
         <TextView
             android:layout_width="match_parent"
@@ -48,13 +57,19 @@
             android:layout_height="45dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:onClick="@{event::viewUpdateShopName}"
+            android:onClick="@{(v)->event.viewUpdateShopName(v,shopeName)}"
             android:background="@drawable/shap_tiled_bg">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/txt_user_accunt_manage"/>
+                android:text="@string/txt_user_shop_name"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text="@{shopeName}"/>
         </RelativeLayout>
         <TextView
             android:layout_width="match_parent"

@@ -7,6 +7,8 @@ import com.lanhi.delivery.consignor.api.response.GetStatesResponse;
 import com.lanhi.delivery.consignor.api.response.GetVertificationResponse;
 import com.lanhi.delivery.consignor.api.response.OrderDetailResponse;
 import com.lanhi.delivery.consignor.api.response.OrderListResponse;
+import com.lanhi.delivery.consignor.api.response.UploadFileResponse;
+import com.lanhi.delivery.consignor.api.response.UserInfoResponse;
 import com.lanhi.delivery.consignor.common.Common;
 import com.lanhi.delivery.consignor.api.response.LoginResponse;
 
@@ -106,11 +108,20 @@ public class ApiRepository {
                 .observeOn(AndroidSchedulers.mainThread());
         return observable;
     }
+    public static Observable<UserInfoResponse> getUserInfo(String str) {
+        Observable<UserInfoResponse> observable = ApiClient.getApiService().getUserInfo(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
 
-    public static Observable<BaseResponse> updateShopImg(String tokenid, String userid, File file) {
+    public static Observable<UploadFileResponse> updateShopImg(String tokenid, String userid, File file) {
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("myFile", file.getName(), requestFile);
-        Observable<BaseResponse> observable = ApiClient.getApiService().uploadShopImg(tokenid,userid,body)
+        MultipartBody.Part myFilePart = MultipartBody.Part.createFormData("myFile", file.getName(), requestFile);
+        MultipartBody.Part tokenidPart = MultipartBody.Part.createFormData("tokenid", tokenid);
+        MultipartBody.Part useridPart = MultipartBody.Part.createFormData("userid", userid);
+
+        Observable<UploadFileResponse> observable = ApiClient.getApiService().uploadShopImg(myFilePart,tokenidPart,useridPart)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         return observable;

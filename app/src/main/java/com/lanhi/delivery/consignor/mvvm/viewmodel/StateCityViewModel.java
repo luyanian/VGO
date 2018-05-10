@@ -145,7 +145,6 @@ public class StateCityViewModel extends AndroidViewModel {
             }else if(stateCityData.getType()==StateCityData.CITY){
                 spinner.setOnItemSelectedListener(onCitySelectedListener);
                 spinner.setSelection(getStateCityPositionInAdapter((StateCityAdapter) spinner.getAdapter(),stateCityData.getName()));
-
             }
         }
     }

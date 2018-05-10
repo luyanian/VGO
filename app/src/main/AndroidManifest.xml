@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lanhi.delivery.consignor">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -16,7 +17,6 @@
         <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -26,6 +26,7 @@
         <activity android:name=".mvvm.view.user.ForgotPasswordActivity"/>
         <activity android:name=".mvvm.view.order.OrderDetailActivity"/>
         <activity android:name=".mvvm.view.user.ShopManagementActivity"/>
+        <activity android:name=".mvvm.view.user.ShopNameEditActivity"/>
         <activity android:name=".mvvm.view.user.AccuntManagementActivity"/>
         <activity android:name=".mvvm.view.user.FinancialManagementActivity"/>
         <activity android:name=".mvvm.view.user.MoreManagementActivity"/>

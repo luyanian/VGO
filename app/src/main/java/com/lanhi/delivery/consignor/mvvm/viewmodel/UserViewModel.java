@@ -16,6 +16,8 @@ import com.lanhi.delivery.consignor.api.response.GetStateCityResponse;
 import com.lanhi.delivery.consignor.api.response.GetStatesResponse;
 import com.lanhi.delivery.consignor.api.response.GetVertificationResponse;
 import com.lanhi.delivery.consignor.api.response.LoginResponse;
+import com.lanhi.delivery.consignor.api.response.UploadFileResponse;
+import com.lanhi.delivery.consignor.api.response.UserInfoResponse;
 import com.lanhi.delivery.consignor.common.Common;
 import com.lanhi.delivery.consignor.common.GlobalParams;
 import com.lanhi.delivery.consignor.common.RObserver;
@@ -34,6 +36,7 @@ import static com.lanhi.delivery.consignor.common.GlobalParams.USER_TYPE;
 
 public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<UserData> mutableLiveData = new MutableLiveData<>();
+    private static MutableLiveData<UserInfoResponse> userInfoResponseMutableLiveData = new MutableLiveData<>();
     public UserViewModel(@NonNull Application application) {
         super(application);
         UserData userData = new UserData();
@@ -41,6 +44,9 @@ public class UserViewModel extends AndroidViewModel {
     }
     public MutableLiveData<UserData> getLiveDate(){
         return mutableLiveData;
+    }
+    public MutableLiveData<UserInfoResponse> getUserInfoMutableLiveData(){
+        return userInfoResponseMutableLiveData;
     }
 
     public void getVerification(RObserver<GetVertificationResponse> rObserver,String scop) {
@@ -182,7 +188,23 @@ public class UserViewModel extends AndroidViewModel {
         ApiRepository.getStateCity(json).subscribe(observer);
     }
 
-    public void updateShopImg(String filePath, RObserver<BaseResponse> rObserver) {
+    public void loadUserInfo(){
+        LoginResponse.UserInfoData userInfoData = (LoginResponse.UserInfoData) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        if(userInfoData!=null){
+            Map map = new HashMap();
+            map.put("tokenid",Common.getToken());
+            map.put("userid",userInfoData.getId());
+            String json = new Gson().toJson(map);
+            ApiRepository.getUserInfo(json).subscribe(new RObserver<UserInfoResponse>() {
+                @Override
+                public void onSuccess(UserInfoResponse userInfoResponse) {
+                    userInfoResponseMutableLiveData.setValue(userInfoResponse);
+                }
+            });
+        }
+    }
+
+    public void updateShopImg(String filePath, RObserver<UploadFileResponse> rObserver) {
         File file = new File(filePath);
         LoginResponse.UserInfoData userInfoData = (LoginResponse.UserInfoData) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
         if(userInfoData!=null){

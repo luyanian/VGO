@@ -1,5 +1,6 @@
 package com.lanhi.delivery.consignor.mvvm.view.user;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.lanhi.delivery.consignor.BaseActivity;
 import com.lanhi.delivery.consignor.R;
+import com.lanhi.delivery.consignor.api.response.UserInfoResponse;
 import com.lanhi.delivery.consignor.common.OnEventListener;
 import com.lanhi.delivery.consignor.databinding.UserFragmentBinding;
 import com.lanhi.delivery.consignor.mvvm.viewmodel.UserViewModel;
@@ -73,5 +75,12 @@ public class UserFragment extends Fragment {
                 ARouter.getInstance().build("/user/more").navigation();
             }
         });
+        userViewModel.getUserInfoMutableLiveData().observe(this, new Observer<UserInfoResponse>() {
+            @Override
+            public void onChanged(@Nullable UserInfoResponse userInfoResponse) {
+
+            }
+        });
+        userViewModel.loadUserInfo();
     }
 }

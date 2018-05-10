@@ -1,6 +1,7 @@
 package com.lanhi.delivery.consignor.mvvm.view.user;
 
 import android.Manifest;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -9,13 +10,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.lanhi.delivery.consignor.BaseActivity;
 import com.lanhi.delivery.consignor.R;
 import com.lanhi.delivery.consignor.api.response.BaseResponse;
+import com.lanhi.delivery.consignor.api.response.UploadFileResponse;
+import com.lanhi.delivery.consignor.api.response.UserInfoResponse;
+import com.lanhi.delivery.consignor.common.Common;
 import com.lanhi.delivery.consignor.common.OnEventListener;
 import com.lanhi.delivery.consignor.common.RObserver;
 import com.lanhi.delivery.consignor.databinding.UserShopManagermentActivityBinding;
@@ -56,8 +62,10 @@ public class ShopManagementActivity extends BaseActivity {
 
         binding.setEvent(new OnEventListener(){
             @Override
-            public void viewUpdateShopName(View v) {
-                super.viewUpdateShopName(v);
+            public void viewUpdateShopName(View v,String shopeName) {
+                super.viewUpdateShopName(v,shopeName);
+                ARouter.getInstance().build("/user/shop/name/edit").withString("shopeName",shopeName).navigation();
+
             }
 
             @Override
@@ -66,6 +74,26 @@ public class ShopManagementActivity extends BaseActivity {
                 ShopManagementActivityPermissionsDispatcher.selectPicFromLocalWithPermissionCheck(ShopManagementActivity.this);
             }
         });
+        UserInfoResponse userInfoResponse = userViewModel.getUserInfoMutableLiveData().getValue();
+        onDataChanged(userInfoResponse);
+        userViewModel.getUserInfoMutableLiveData().observe(this, new Observer<UserInfoResponse>() {
+            @Override
+            public void onChanged(@Nullable UserInfoResponse userInfoResponse) {
+                onDataChanged(userInfoResponse);
+            }
+        });
+    }
+
+    private void onDataChanged(UserInfoResponse userInfoResponse) {
+        if(userInfoResponse!=null&&userInfoResponse.getData()!=null&&userInfoResponse.getData().size()>0){
+            UserInfoResponse.DataBean dataBean = userInfoResponse.getData().get(0);
+            if(dataBean!=null) {
+                if(TextUtils.isEmpty(dataBean.getShop_duty_paragraph())) {
+                    binding.setImageUrl(dataBean.getShop_head_portrait());
+                }
+                binding.setShopeName(dataBean.getShop_name());
+            }
+        }
     }
 
     @Override
@@ -115,10 +143,10 @@ public class ShopManagementActivity extends BaseActivity {
             if(selectList!=null&&selectList.size()>0) {
                 LocalMedia localMedia = selectList.get(0);
                 String filePath = localMedia.getPath();//图片地址
-                userViewModel.updateShopImg(filePath, new RObserver<BaseResponse>() {
+                userViewModel.updateShopImg(filePath, new RObserver<UploadFileResponse>() {
                     @Override
-                    public void onSuccess(BaseResponse baseResponse) {
-
+                    public void onSuccess(UploadFileResponse uploadFileResponse) {
+                        binding.setImageUrl(uploadFileResponse.getData().get(0).getImgUrl());
                     }
                 });
             }
