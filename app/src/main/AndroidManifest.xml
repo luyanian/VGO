@@ -27,7 +27,6 @@
         <activity android:name=".mvvm.view.order.OrderDetailActivity"/>
         <activity android:name=".mvvm.view.user.ShopManagementActivity"/>
         <activity android:name=".mvvm.view.user.ShopNameEditActivity"/>
-        <activity android:name=".mvvm.view.user.AccuntManagementActivity"/>
         <activity android:name=".mvvm.view.user.FinancialManagementActivity"/>
         <activity android:name=".mvvm.view.user.MoreManagementActivity"/>
         <activity android:name=".mvvm.view.MainActivity"/>

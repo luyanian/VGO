@@ -60,7 +60,7 @@ public class UserFragment extends Fragment {
             @Override
             public void viewUserAccunt(View v) {
                 super.viewUserAccunt(v);
-                ARouter.getInstance().build("/user/accunt").navigation();
+                ARouter.getInstance().build("/user/accunt/manage").navigation();
             }
 
             @Override
