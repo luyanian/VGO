@@ -17,6 +17,7 @@ public class OnEventListener {
     public void toRegistActivity(View v){};
     public void toForgotPwdActivity(View v){};
     public void resetPassword(View v){};
+    public void editPassword(View v,String oldPassword,String newPassword,String newPassword2){};
 
     public void orderPublish(View v){}
     public void cancelOrderPublish(View v){}
@@ -31,4 +32,7 @@ public class OnEventListener {
     public void viewUpdateShopName(View v,String shopeName){}
     public void updateShopImg(View v){}
     public void shopNameEdit(View v,String shopName){}
+    public void viewUserAccountInfo(View v){}
+    public void viewPasswordEdit(View v){}
+    public void onclickHotLine(View v,String phone){}
 }

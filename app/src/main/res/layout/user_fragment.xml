@@ -62,13 +62,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/txt_user_shop_manage"/>
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=">"
-                android:textSize="20dp"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_arrow_you"/>
         </RelativeLayout>
         <TextView
             android:layout_width="match_parent"
@@ -88,6 +87,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/txt_user_accunt_manage"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_arrow_you"/>
         </RelativeLayout>
         <TextView
             android:layout_width="match_parent"
@@ -107,6 +112,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/txt_user_financial_manage"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_arrow_you"/>
         </RelativeLayout>
         <TextView
             android:layout_width="match_parent"
@@ -126,6 +137,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/txt_user_more"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_arrow_you"/>
         </RelativeLayout>
         <TextView
             android:layout_width="match_parent"

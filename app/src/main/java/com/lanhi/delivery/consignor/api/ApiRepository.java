@@ -1,10 +1,12 @@
 package com.lanhi.delivery.consignor.api;
 
+import com.lanhi.delivery.consignor.api.response.AboutMeResponse;
 import com.lanhi.delivery.consignor.api.response.BaseResponse;
 import com.lanhi.delivery.consignor.api.response.GetCityResponse;
 import com.lanhi.delivery.consignor.api.response.GetStateCityResponse;
 import com.lanhi.delivery.consignor.api.response.GetStatesResponse;
 import com.lanhi.delivery.consignor.api.response.GetVertificationResponse;
+import com.lanhi.delivery.consignor.api.response.HotlineResponse;
 import com.lanhi.delivery.consignor.api.response.OrderDetailResponse;
 import com.lanhi.delivery.consignor.api.response.OrderListResponse;
 import com.lanhi.delivery.consignor.api.response.UploadFileResponse;
@@ -14,6 +16,7 @@ import com.lanhi.delivery.consignor.api.response.LoginResponse;
 
 import java.io.File;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -110,6 +113,27 @@ public class ApiRepository {
     }
     public static Observable<UserInfoResponse> getUserInfo(String str) {
         Observable<UserInfoResponse> observable = ApiClient.getApiService().getUserInfo(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+
+    public static Observable<BaseResponse> editUserPassword(String str) {
+        Observable<BaseResponse> observable = ApiClient.getApiService().editUserPassword(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+
+    public static Observable<HotlineResponse> getHotline(String str) {
+        Observable<HotlineResponse> observable = ApiClient.getApiService().getHotline(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+
+    public static Observable<AboutMeResponse> getAboutMeInfo(String str) {
+        Observable<AboutMeResponse> observable = ApiClient.getApiService().getAboutMeInfo(Common.rsaEncrypt(str))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         return observable;

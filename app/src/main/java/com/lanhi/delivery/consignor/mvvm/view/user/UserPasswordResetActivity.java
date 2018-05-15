@@ -7,7 +7,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.lanhi.delivery.consignor.BaseActivity;
 
 @Route(path = "/user/password/reset")
-public class ResetPasswordActivity extends BaseActivity {
+public class UserPasswordResetActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

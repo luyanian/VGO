@@ -17,19 +17,19 @@ import com.lanhi.delivery.consignor.api.response.GetVertificationResponse;
 import com.lanhi.delivery.consignor.common.GlobalParams;
 import com.lanhi.delivery.consignor.common.OnEventListener;
 import com.lanhi.delivery.consignor.common.RObserver;
-import com.lanhi.delivery.consignor.databinding.UserFindPasswordBinding;
+import com.lanhi.delivery.consignor.databinding.UserPasswordForgetBinding;
 import com.lanhi.delivery.consignor.mvvm.model.UserData;
 import com.lanhi.delivery.consignor.mvvm.viewmodel.UserViewModel;
 import com.lanhi.delivery.consignor.weight.titlebar.TitleBarOptions;
 
 @Route(path = "/user/password/forgot")
 public class ForgotPasswordActivity extends BaseActivity {
-    UserFindPasswordBinding binding;
+    UserPasswordForgetBinding binding;
     UserViewModel viewModel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.user_find_password);
+        binding = DataBindingUtil.setContentView(this,R.layout.user_password_forget);
         viewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         initTitleBar();
         initEventListener();

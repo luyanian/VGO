@@ -10,11 +10,13 @@ import com.google.gson.Gson;
 import com.lanhi.delivery.consignor.App;
 import com.lanhi.delivery.consignor.R;
 import com.lanhi.delivery.consignor.api.ApiRepository;
+import com.lanhi.delivery.consignor.api.response.AboutMeResponse;
 import com.lanhi.delivery.consignor.api.response.BaseResponse;
 import com.lanhi.delivery.consignor.api.response.GetCityResponse;
 import com.lanhi.delivery.consignor.api.response.GetStateCityResponse;
 import com.lanhi.delivery.consignor.api.response.GetStatesResponse;
 import com.lanhi.delivery.consignor.api.response.GetVertificationResponse;
+import com.lanhi.delivery.consignor.api.response.HotlineResponse;
 import com.lanhi.delivery.consignor.api.response.LoginResponse;
 import com.lanhi.delivery.consignor.api.response.UploadFileResponse;
 import com.lanhi.delivery.consignor.api.response.UserInfoResponse;
@@ -36,7 +38,8 @@ import static com.lanhi.delivery.consignor.common.GlobalParams.USER_TYPE;
 
 public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<UserData> mutableLiveData = new MutableLiveData<>();
-    private static MutableLiveData<UserInfoResponse> userInfoResponseMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<HotlineResponse.DataBean> hotLineMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<UserInfoResponse> userInfoResponseMutableLiveData = new MutableLiveData<>();
     public UserViewModel(@NonNull Application application) {
         super(application);
         UserData userData = new UserData();
@@ -47,6 +50,10 @@ public class UserViewModel extends AndroidViewModel {
     }
     public MutableLiveData<UserInfoResponse> getUserInfoMutableLiveData(){
         return userInfoResponseMutableLiveData;
+    }
+
+    public MutableLiveData<HotlineResponse.DataBean> getHotLineMutableLiveData() {
+        return hotLineMutableLiveData;
     }
 
     public void getVerification(RObserver<GetVertificationResponse> rObserver,String scop) {
@@ -210,5 +217,61 @@ public class UserViewModel extends AndroidViewModel {
         if(userInfoData!=null){
             ApiRepository.updateShopImg(Common.getToken(),userInfoData.getId(),file).subscribe(rObserver);
         }
+    }
+
+    public void getHotLine() {
+            Map map = new HashMap();
+            map.put("tokenid",Common.getToken());
+            String json = new Gson().toJson(map);
+            ApiRepository.getHotline(json).subscribe(new RObserver<HotlineResponse>() {
+                @Override
+                public void onSuccess(HotlineResponse hotlineResponse) {
+                    if(hotlineResponse.getData()!=null&&hotlineResponse.getData().size()>0) {
+                        hotLineMutableLiveData.setValue(hotlineResponse.getData().get(0));
+                    }
+                }
+            });
+    }
+
+    public void getAboutMeInfo() {
+        Map map = new HashMap();
+        map.put("tokenid",Common.getToken());
+        String json = new Gson().toJson(map);
+        ApiRepository.getAboutMeInfo(json).subscribe(new RObserver<AboutMeResponse>() {
+            @Override
+            public void onSuccess(AboutMeResponse aboutMeResponse) {
+
+            }
+        });
+    }
+
+    public void editUserPassword(String oldPassword,String newPassword,String newPassword2,RObserver<BaseResponse> rObserver){
+        LoginResponse.UserInfoData userInfoData = (LoginResponse.UserInfoData) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        if(userInfoData==null){
+            return;
+        }
+        if(TextUtils.isEmpty(oldPassword)){
+            ToastUtils.showShort(App.getInstance().getResources().getString(R.string.error_empty_old_password));
+            return;
+        }
+        if(TextUtils.isEmpty(newPassword)){
+            ToastUtils.showShort(App.getInstance().getResources().getString(R.string.error_empty_new_password));
+            return;
+        }
+        if(TextUtils.isEmpty(newPassword2)){
+            ToastUtils.showShort(App.getInstance().getResources().getString(R.string.error_empty_password2));
+            return;
+        }
+        if(!newPassword2.equals(newPassword)){
+            ToastUtils.showShort(App.getInstance().getResources().getString(R.string.error_ensure_password));
+            return;
+        }
+        Map map = new HashMap();
+        map.put("tokenid",Common.getToken());
+        map.put("userid",userInfoData.getId());
+        map.put("user_newPassword",newPassword);
+        map.put("oldPassword",oldPassword);
+        String json = new Gson().toJson(map);
+        ApiRepository.editUserPassword(json).subscribe(rObserver);
     }
 }

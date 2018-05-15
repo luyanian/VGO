@@ -20,6 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".BaseActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".mvvm.view.user.RegistStep1Activity"/>
         <activity android:name=".mvvm.view.user.RegistStep2Activity"/>
         <activity android:name=".mvvm.view.user.LoginActivity"/>
@@ -27,9 +29,12 @@
         <activity android:name=".mvvm.view.order.OrderDetailActivity"/>
         <activity android:name=".mvvm.view.user.ShopManagementActivity"/>
         <activity android:name=".mvvm.view.user.ShopNameEditActivity"/>
+        <activity android:name=".mvvm.view.user.UserAccountActivity"/>
+        <activity android:name=".mvvm.view.user.UserPasswordEditActivity"/>
+        <activity android:name=".mvvm.view.setting.MoreActivity"/>
         <activity android:name=".mvvm.view.user.FinancialManagementActivity"/>
-        <activity android:name=".mvvm.view.user.MoreManagementActivity"/>
-        <activity android:name=".mvvm.view.MainActivity"/>
+        <activity android:name=".mvvm.view.MainActivity"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

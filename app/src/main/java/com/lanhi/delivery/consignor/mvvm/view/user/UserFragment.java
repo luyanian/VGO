@@ -35,7 +35,7 @@ public class UserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel = ViewModelProviders.of((BaseActivity)this.getActivity()).get(UserViewModel.class);
         binding.setEvent(new OnEventListener(){
             @Override
             public void signOut(View v) {
@@ -60,7 +60,7 @@ public class UserFragment extends Fragment {
             @Override
             public void viewUserAccunt(View v) {
                 super.viewUserAccunt(v);
-                ARouter.getInstance().build("/user/accunt/manage").navigation();
+                ARouter.getInstance().build("/user/account/manage").navigation();
             }
 
             @Override
@@ -72,7 +72,7 @@ public class UserFragment extends Fragment {
             @Override
             public void viewUserMore(View v) {
                 super.viewUserMore(v);
-                ARouter.getInstance().build("/user/more").navigation();
+                ARouter.getInstance().build("/setting/more").navigation();
             }
         });
         userViewModel.getUserInfoMutableLiveData().observe(this, new Observer<UserInfoResponse>() {

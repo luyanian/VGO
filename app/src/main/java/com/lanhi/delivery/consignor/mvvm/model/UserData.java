@@ -7,10 +7,12 @@ public class UserData {
     public final static String KEY_PASSWORD2="password2";
     private String phone;
     private String smsCode;
+    private String oldPassword;
     private String password;
     private String password2;
     private String userName;
     private String shopName;
+    private String shopHeaderImageUrl;
     private String zipCode;
     private String address;
     private String state;
@@ -38,6 +40,14 @@ public class UserData {
 
     public void setSmsCode(String smsCode) {
         this.smsCode = smsCode;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 
     public String getPassword() {
@@ -70,6 +80,14 @@ public class UserData {
 
     public void setShopName(String shopName) {
         this.shopName = shopName;
+    }
+
+    public String getShopHeaderImageUrl() {
+        return shopHeaderImageUrl;
+    }
+
+    public void setShopHeaderImageUrl(String shopHeaderImageUrl) {
+        this.shopHeaderImageUrl = shopHeaderImageUrl;
     }
 
     public String getZipCode() {

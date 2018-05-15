@@ -9,6 +9,7 @@
     <string name="verificationv_code">验证码</string>
     <string name="password_found">找回密码</string>
     <string name="password_reset">重置密码</string>
+    <string name="password_edit">修改密码</string>
     <string name="menu_home_text">发布订单</string>
     <string name="menu_order_text">订单</string>
     <string name="menu_my_text">我的</string>
@@ -34,6 +35,8 @@
     <string name="hint_phone_num">手机号</string>
     <string name="hint_password">密码</string>
     <string name="hint_password2">确认密码</string>
+    <string name="hint_old_password">原始密码</string>
+    <string name="hint_new_password">新密码</string>
     <string name="hint_input_username">请输入姓名</string>
     <string name="hint_input_shopname">请输入店铺名称</string>
     <string name="hint_input_zipcode">请输入邮政编码</string>
@@ -77,9 +80,14 @@
     <string name="txt_user_shop_header_img">店铺头像</string>
     <string name="txt_user_shop_name">店铺名称</string>
     <string name="txt_user_shop_name_edit">编辑店铺名称</string>
+    <string name="txt_user_name">姓名</string>
     <string name="txt_user_accunt_manage">账号管理</string>
+    <string name="txt_user_sccount_info">账号信息</string>
     <string name="txt_user_financial_manage">财务管理</string>
     <string name="txt_user_more">更多</string>
+    <string name="txt_more_agreement">平台协议</string>
+    <string name="txt_more_about_me">关于我们</string>
+    <string name="txt_more_hotline">服务热线</string>
 
     <string name="error_vertify_vercode">短信验证码无效</string>
     <string name="error_user_tocken">登录信息失效，请重新登录！</string>
@@ -92,6 +100,8 @@
     <string name="error_format_mobile">手机号格式不正确</string>
     <string name="error_empty_mobile">请输入手机号</string>
     <string name="error_empty_password">请输入密码</string>
+    <string name="error_empty_old_password">请输入原始密码</string>
+    <string name="error_empty_new_password">请输入新密码</string>
     <string name="error_empty_password2">请输入确认密码</string>
     <string name="error_ensure_password">两次输入的密码不一致</string>
     <string name="error_empty_verCode">请输入收到的短信验证码</string>

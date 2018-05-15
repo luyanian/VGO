@@ -7,7 +7,7 @@
             type="com.lanhi.delivery.consignor.common.OnEventListener"/>
         <variable
             name="data"
-            type="com.lanhi.delivery.consignor.mvvm.model.ShopData"/>
+            type="com.lanhi.delivery.consignor.mvvm.model.UserData"/>
     </data>
     <LinearLayout
         android:layout_width="match_parent"

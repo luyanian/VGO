@@ -10,7 +10,7 @@ import com.lanhi.delivery.consignor.BaseActivity;
 import com.lanhi.delivery.consignor.R;
 import com.lanhi.delivery.consignor.common.OnEventListener;
 import com.lanhi.delivery.consignor.databinding.UserShopNameEditActivityBinding;
-import com.lanhi.delivery.consignor.mvvm.model.ShopData;
+import com.lanhi.delivery.consignor.mvvm.model.UserData;
 import com.lanhi.delivery.consignor.weight.titlebar.TitleBarOptions;
 @Route(path = "/user/shop/name/edit")
 public class ShopNameEditActivity extends BaseActivity {
@@ -26,10 +26,10 @@ public class ShopNameEditActivity extends BaseActivity {
                 finish();
             }
         });
-        ShopData shopData = new ShopData();
+        UserData userData = new UserData();
         String shopeName = getIntent().getStringExtra("shopeName");
-        shopData.setShopName(shopeName);
-        binding.setData(shopData);
+        userData.setShopName(shopeName);
+        binding.setData(userData);
         binding.setEvent(new OnEventListener(){
             @Override
             public void shopNameEdit(View v, String shopName) {

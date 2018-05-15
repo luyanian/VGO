@@ -19,4 +19,8 @@ public class BaseActivity extends AppCompatActivity {
         App.getInstance().changeAppLanguage();
 
     }
+
+    public BaseActivity getInstance(){
+        return this;
+    }
 }

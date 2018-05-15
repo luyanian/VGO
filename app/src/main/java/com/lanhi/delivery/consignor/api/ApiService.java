@@ -1,10 +1,12 @@
 package com.lanhi.delivery.consignor.api;
 
+import com.lanhi.delivery.consignor.api.response.AboutMeResponse;
 import com.lanhi.delivery.consignor.api.response.BaseResponse;
 import com.lanhi.delivery.consignor.api.response.GetCityResponse;
 import com.lanhi.delivery.consignor.api.response.GetStateCityResponse;
 import com.lanhi.delivery.consignor.api.response.GetStatesResponse;
 import com.lanhi.delivery.consignor.api.response.GetVertificationResponse;
+import com.lanhi.delivery.consignor.api.response.HotlineResponse;
 import com.lanhi.delivery.consignor.api.response.LoginResponse;
 import com.lanhi.delivery.consignor.api.response.OrderDetailResponse;
 import com.lanhi.delivery.consignor.api.response.OrderListResponse;
@@ -77,6 +79,18 @@ public interface ApiService{
     @FormUrlEncoded
     @POST("appinterface/getuserinfo.shtml")
     Observable<UserInfoResponse> getUserInfo(@Field("str") String str);
+
+    @FormUrlEncoded
+    @POST("appinterface/user_update_pass.shtml")
+    Observable<BaseResponse> editUserPassword(@Field("str") String str);
+
+    @FormUrlEncoded
+    @POST("appinterface/gethotline.shtml")
+    Observable<HotlineResponse> getHotline(@Field("str") String str);
+
+    @FormUrlEncoded
+    @POST("appinterface/getapp_introduce.shtml")
+    Observable<AboutMeResponse> getAboutMeInfo(@Field("str") String str);
 
     @Headers({
             "Accept: application/json",
