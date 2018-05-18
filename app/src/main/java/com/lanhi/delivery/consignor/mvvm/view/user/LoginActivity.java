@@ -15,6 +15,7 @@ import com.lanhi.delivery.consignor.BaseActivity;
 import com.lanhi.delivery.consignor.R;
 import com.lanhi.delivery.consignor.api.ApiRepository;
 import com.lanhi.delivery.consignor.api.response.GetVertificationResponse;
+import com.lanhi.delivery.consignor.api.response.bean.UserInfoDataBean;
 import com.lanhi.delivery.consignor.common.CountDownTimerUtils;
 import com.lanhi.delivery.consignor.common.GlobalParams;
 import com.lanhi.delivery.consignor.common.OnEventListener;
@@ -63,7 +64,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onSuccess(LoginResponse loginResponse) {
                         SPUtils.getInstance().put(SPKeys.TOKENID,loginResponse.getTokenid());
-                        LoginResponse.UserInfoData userInfoData = loginResponse.getData().get(0);
+                        UserInfoDataBean userInfoData = loginResponse.getData().get(0);
                         SPUtils.getInstance().saveObject(SPKeys.USER_INFO,userInfoData);
                         ARouter.getInstance().build("/main/main").navigation();
                     }

@@ -20,6 +20,7 @@ import com.lanhi.delivery.consignor.api.response.HotlineResponse;
 import com.lanhi.delivery.consignor.api.response.LoginResponse;
 import com.lanhi.delivery.consignor.api.response.UploadFileResponse;
 import com.lanhi.delivery.consignor.api.response.UserInfoResponse;
+import com.lanhi.delivery.consignor.api.response.bean.UserInfoDataBean;
 import com.lanhi.delivery.consignor.common.Common;
 import com.lanhi.delivery.consignor.common.GlobalParams;
 import com.lanhi.delivery.consignor.common.RObserver;
@@ -196,7 +197,7 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public void loadUserInfo(){
-        LoginResponse.UserInfoData userInfoData = (LoginResponse.UserInfoData) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
         if(userInfoData!=null){
             Map map = new HashMap();
             map.put("tokenid",Common.getToken());
@@ -205,15 +206,57 @@ public class UserViewModel extends AndroidViewModel {
             ApiRepository.getUserInfo(json).subscribe(new RObserver<UserInfoResponse>() {
                 @Override
                 public void onSuccess(UserInfoResponse userInfoResponse) {
+                    SPUtils.getInstance().saveObject(SPKeys.USER_INFO,userInfoResponse.getData().get(0));
                     userInfoResponseMutableLiveData.setValue(userInfoResponse);
                 }
             });
         }
     }
 
+    public void editUserInfo(UserData userData,RObserver<BaseResponse> rObserver){
+        if(userData==null){
+            return;
+        }
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        if(userInfoData==null){
+            return;
+        }
+        Map map = new HashMap();
+        // TODO: 2018/5/15
+        String json = new Gson().toJson(map);
+//        ApiRepository.getUserInfo(json).subscribe(rObserver);
+    }
+
+    public void editUserName(String userName,RObserver<BaseResponse> rObserver){
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        if(userInfoData==null){
+            return;
+        }
+        Map map = new HashMap();
+        map.put("tokenid",Common.getToken());
+        map.put("userid",userInfoData.getId());
+        map.put("user_name",userName);
+        String json = new Gson().toJson(map);
+        ApiRepository.editUserName(json).subscribe(rObserver);
+    }
+
+    public void editUserAccountNum(String checkNum,String routingNum,RObserver<BaseResponse> rObserver){
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        if(userInfoData==null){
+            return;
+        }
+        Map map = new HashMap();
+        map.put("tokenid",Common.getToken());
+        map.put("userid",userInfoData.getId());
+        map.put("checkNum",checkNum);
+        map.put("routingNum",routingNum);
+        String json = new Gson().toJson(map);
+        ApiRepository.editUserAccountNum(json).subscribe(rObserver);
+    }
+
     public void updateShopImg(String filePath, RObserver<UploadFileResponse> rObserver) {
         File file = new File(filePath);
-        LoginResponse.UserInfoData userInfoData = (LoginResponse.UserInfoData) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
         if(userInfoData!=null){
             ApiRepository.updateShopImg(Common.getToken(),userInfoData.getId(),file).subscribe(rObserver);
         }
@@ -246,7 +289,7 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public void editUserPassword(String oldPassword,String newPassword,String newPassword2,RObserver<BaseResponse> rObserver){
-        LoginResponse.UserInfoData userInfoData = (LoginResponse.UserInfoData) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
         if(userInfoData==null){
             return;
         }

@@ -12,7 +12,7 @@ import com.lanhi.delivery.consignor.databinding.UserFinancialManagementActivityB
 import com.lanhi.delivery.consignor.weight.titlebar.TitleBarOptions;
 
 @Route(path = "/user/financial")
-public class FinancialManagementActivity extends BaseActivity {
+public class UserFinancialManagementActivity extends BaseActivity {
     private UserFinancialManagementActivityBinding binding;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

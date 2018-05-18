@@ -12,19 +12,20 @@ import com.lanhi.delivery.consignor.R;
 import com.lanhi.delivery.consignor.api.response.BaseResponse;
 import com.lanhi.delivery.consignor.common.OnEventListener;
 import com.lanhi.delivery.consignor.common.RObserver;
-import com.lanhi.delivery.consignor.databinding.UserPasswordEditActivityBinding;
+import com.lanhi.delivery.consignor.databinding.UserNameEditActivityBinding;
 import com.lanhi.delivery.consignor.mvvm.model.UserData;
 import com.lanhi.delivery.consignor.mvvm.viewmodel.UserViewModel;
 import com.lanhi.delivery.consignor.weight.titlebar.TitleBarOptions;
 import com.lanhi.ryon.utils.mutils.ToastUtils;
-@Route(path = "/user/password/edit")
-public class UserPasswordEditActivity extends BaseActivity {
-    UserPasswordEditActivityBinding binding;
-    UserViewModel userViewModel;
+
+@Route(path = "/user/name/edit")
+public class UserNameEditActivity extends BaseActivity {
+    private UserNameEditActivityBinding binding;
+    private UserViewModel userViewModel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.user_password_edit_activity);
+        binding = DataBindingUtil.setContentView(this, R.layout.user_name_edit_activity);
         userViewModel = ViewModelProviders.of(getInstance()).get(UserViewModel.class);
         binding.titlebar.setTitleBarOptions(new TitleBarOptions(){
             @Override
@@ -34,12 +35,14 @@ public class UserPasswordEditActivity extends BaseActivity {
             }
         });
         UserData userData = new UserData();
+        String shopeName = getIntent().getStringExtra("shopeName");
+        userData.setShopName(shopeName);
         binding.setData(userData);
-        binding.setListenser(new OnEventListener(){
+        binding.setEvent(new OnEventListener(){
             @Override
-            public void editPassword(View v, String oldPassword, String newPassword, String newPassword2) {
-                super.editPassword(v, oldPassword, newPassword, newPassword2);
-                userViewModel.editUserPassword(oldPassword, newPassword, newPassword2, new RObserver<BaseResponse>() {
+            public void userNameEdit(View v, String userName) {
+                super.userNameEdit(v, userName);
+                userViewModel.editUserName(userName, new RObserver<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
                         ToastUtils.showShort(R.string.msg_commit_successful);

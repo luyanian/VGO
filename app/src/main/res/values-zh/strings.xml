@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Delivery_Consignor</string>
+    <string name="app_name">VGO</string>
     <string name="sign_in">登录</string>
     <string name="sign_out">退出登录</string>
     <string name="regist">注册</string>
@@ -66,6 +66,7 @@
     <string name="msg_agreement_value">&#160;&#160;已同意</string>
     <string name="msg_agreement_name">&#160;&#171;配送品台用户协议&#187;</string>
     <string name="msg_vertify_your_account">验证您的账号</string>
+    <string name="msg_commit_successful">提交成功</string>
     <string name="msg_vertify_account_success">已找到该账号，稍后将受到短信验证码，谨防泄漏！</string>
 
     <string name="txt_order_state">订单状态：</string>
@@ -80,6 +81,8 @@
     <string name="txt_user_shop_header_img">店铺头像</string>
     <string name="txt_user_shop_name">店铺名称</string>
     <string name="txt_user_shop_name_edit">编辑店铺名称</string>
+    <string name="txt_user_name_edit">编辑用户名称</string>
+    <string name="txt_user_account_num_edit">修改账户</string>
     <string name="txt_user_name">姓名</string>
     <string name="txt_user_accunt_manage">账号管理</string>
     <string name="txt_user_sccount_info">账号信息</string>

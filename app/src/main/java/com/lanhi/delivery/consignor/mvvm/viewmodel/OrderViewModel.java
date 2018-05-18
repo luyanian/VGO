@@ -11,6 +11,7 @@ import com.lanhi.delivery.consignor.api.response.BaseResponse;
 import com.lanhi.delivery.consignor.api.response.LoginResponse;
 import com.lanhi.delivery.consignor.api.response.OrderDetailResponse;
 import com.lanhi.delivery.consignor.api.response.OrderListResponse;
+import com.lanhi.delivery.consignor.api.response.bean.UserInfoDataBean;
 import com.lanhi.delivery.consignor.common.Common;
 import com.lanhi.delivery.consignor.common.RObserver;
 import com.lanhi.delivery.consignor.common.SPKeys;
@@ -29,7 +30,7 @@ public class OrderViewModel extends AndroidViewModel {
     public OrderViewModel(@NonNull Application application) {
         super(application);
         OrderData orderData = new OrderData();
-        LoginResponse.UserInfoData userInfoData = (LoginResponse.UserInfoData) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
         if(userInfoData!=null){
             orderData.setConsignorName(userInfoData.getUser_name());
             orderData.setConsignorAddress(userInfoData.getAddressinfo());
@@ -75,7 +76,7 @@ public class OrderViewModel extends AndroidViewModel {
 
     public void clearInputInfo() {
         OrderData orderData = new OrderData();
-        LoginResponse.UserInfoData userInfoData = (LoginResponse.UserInfoData) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
         if(userInfoData!=null){
             orderData.setConsignorName(userInfoData.getUser_name());
             orderData.setConsignorAddress(userInfoData.getAddressinfo());
@@ -94,7 +95,7 @@ public class OrderViewModel extends AndroidViewModel {
 
     public synchronized void loadOrderList(final String order_state, final int pagenum) {
         Map map = new HashMap();
-        LoginResponse.UserInfoData userInfoData = (LoginResponse.UserInfoData) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
         if(userInfoData!=null){
             map.put("merchantid",userInfoData.getId());
             map.put("order_state",order_state);

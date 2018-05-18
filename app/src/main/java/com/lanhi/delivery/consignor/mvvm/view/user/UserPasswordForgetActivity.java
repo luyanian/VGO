@@ -23,7 +23,7 @@ import com.lanhi.delivery.consignor.mvvm.viewmodel.UserViewModel;
 import com.lanhi.delivery.consignor.weight.titlebar.TitleBarOptions;
 
 @Route(path = "/user/password/forgot")
-public class ForgotPasswordActivity extends BaseActivity {
+public class UserPasswordForgetActivity extends BaseActivity {
     UserPasswordForgetBinding binding;
     UserViewModel viewModel;
     @Override

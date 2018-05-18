@@ -81,6 +81,14 @@ public interface ApiService{
     Observable<UserInfoResponse> getUserInfo(@Field("str") String str);
 
     @FormUrlEncoded
+    @POST("appinterface/update_username.shtml")
+    Observable<BaseResponse> editUserName(@Field("str") String str);
+
+    @FormUrlEncoded
+    @POST("appinterface/update_user_num.shtml")
+    Observable<BaseResponse> editUserAccountNum(@Field("str") String str);
+
+    @FormUrlEncoded
     @POST("appinterface/user_update_pass.shtml")
     Observable<BaseResponse> editUserPassword(@Field("str") String str);
 

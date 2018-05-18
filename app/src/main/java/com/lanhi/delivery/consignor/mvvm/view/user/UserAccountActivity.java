@@ -10,10 +10,13 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.lanhi.delivery.consignor.BaseActivity;
 import com.lanhi.delivery.consignor.R;
+import com.lanhi.delivery.consignor.api.response.bean.UserInfoDataBean;
 import com.lanhi.delivery.consignor.common.OnEventListener;
+import com.lanhi.delivery.consignor.common.SPKeys;
 import com.lanhi.delivery.consignor.databinding.UserAccountManagermentActivityBinding;
 import com.lanhi.delivery.consignor.mvvm.viewmodel.UserViewModel;
 import com.lanhi.delivery.consignor.weight.titlebar.TitleBarOptions;
+import com.lanhi.ryon.utils.mutils.SPUtils;
 
 @Route(path = "/user/account/manage")
 public class UserAccountActivity extends BaseActivity {
@@ -31,15 +34,21 @@ public class UserAccountActivity extends BaseActivity {
                 finish();
             }
         });
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        if(userInfoData!=null){
+//            userInfoData.
+        }
         binding.setEvent(new OnEventListener(){
             @Override
             public void viewUserAccunt(View v) {
                 super.viewUserAccunt(v);
+                ARouter.getInstance().build("/user/name/edit").navigation();
             }
 
             @Override
             public void viewUserAccountInfo(View v) {
                 super.viewUserAccountInfo(v);
+                ARouter.getInstance().build("/user/check/edit").navigation();
             }
 
             @Override

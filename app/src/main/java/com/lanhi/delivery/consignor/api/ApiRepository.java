@@ -117,7 +117,18 @@ public class ApiRepository {
                 .observeOn(AndroidSchedulers.mainThread());
         return observable;
     }
-
+    public static Observable<BaseResponse> editUserName(String str) {
+        Observable<BaseResponse> observable = ApiClient.getApiService().editUserName(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+    public static Observable<BaseResponse> editUserAccountNum(String str) {
+        Observable<BaseResponse> observable = ApiClient.getApiService().editUserAccountNum(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
     public static Observable<BaseResponse> editUserPassword(String str) {
         Observable<BaseResponse> observable = ApiClient.getApiService().editUserPassword(Common.rsaEncrypt(str))
                 .subscribeOn(Schedulers.io())

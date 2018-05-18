@@ -21,6 +21,7 @@ import com.lanhi.delivery.consignor.R;
 import com.lanhi.delivery.consignor.api.response.BaseResponse;
 import com.lanhi.delivery.consignor.api.response.UploadFileResponse;
 import com.lanhi.delivery.consignor.api.response.UserInfoResponse;
+import com.lanhi.delivery.consignor.api.response.bean.UserInfoDataBean;
 import com.lanhi.delivery.consignor.common.Common;
 import com.lanhi.delivery.consignor.common.OnEventListener;
 import com.lanhi.delivery.consignor.common.RObserver;
@@ -86,7 +87,7 @@ public class ShopManagementActivity extends BaseActivity {
 
     private void onDataChanged(UserInfoResponse userInfoResponse) {
         if(userInfoResponse!=null&&userInfoResponse.getData()!=null&&userInfoResponse.getData().size()>0){
-            UserInfoResponse.DataBean dataBean = userInfoResponse.getData().get(0);
+            UserInfoDataBean dataBean = userInfoResponse.getData().get(0);
             if(dataBean!=null) {
                 if(TextUtils.isEmpty(dataBean.getShop_duty_paragraph())) {
                     binding.setImageUrl(dataBean.getShop_head_portrait());

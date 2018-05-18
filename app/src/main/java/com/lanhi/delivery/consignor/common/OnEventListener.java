@@ -32,6 +32,8 @@ public class OnEventListener {
     public void viewUpdateShopName(View v,String shopeName){}
     public void updateShopImg(View v){}
     public void shopNameEdit(View v,String shopName){}
+    public void userNameEdit(View v,String userName){}
+    public void userAccountNumEdit(View v,String checkNum,String routingNum){}
     public void viewUserAccountInfo(View v){}
     public void viewPasswordEdit(View v){}
     public void onclickHotLine(View v,String phone){}
