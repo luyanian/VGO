@@ -1,6 +1,7 @@
 package com.lanhi.delivery.consignor.common;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.lanhi.delivery.consignor.App;
@@ -8,8 +9,13 @@ import com.lanhi.delivery.consignor.R;
 import com.lanhi.delivery.consignor.api.ApiConstants;
 import com.lanhi.delivery.consignor.api.RSAEncryptor;
 import com.lanhi.delivery.consignor.api.response.LoginResponse;
+import com.lanhi.ryon.utils.mutils.AppUtils;
+import com.lanhi.ryon.utils.mutils.PhoneUtils;
+import com.lanhi.ryon.utils.mutils.RegexUtils;
 import com.lanhi.ryon.utils.mutils.SPUtils;
 import com.orhanobut.logger.Logger;
+
+import org.w3c.dom.Text;
 
 import java.net.URLEncoder;
 import java.security.PublicKey;
@@ -95,8 +101,12 @@ public class Common {
         return stateString;
     }
 
-    public static String getImageUrl(String path){
-        return ApiConstants.HOST+path;
+    public static String getSecurityPhoneNum(String phone){
+        if(TextUtils.isEmpty(phone)){
+            return "";
+        }else {
+            return RegexUtils.getSecurityPhoneNum(phone);
+        }
     }
 
 }

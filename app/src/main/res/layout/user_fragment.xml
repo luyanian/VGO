@@ -2,6 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="com.lanhi.delivery.consignor.common.Common"/>
+        <variable
+            name="data"
+            type="com.lanhi.delivery.consignor.api.response.bean.UserInfoDataBean"/>
         <variable
             name="event"
             type="com.lanhi.delivery.consignor.common.OnEventListener"/>
@@ -25,7 +29,9 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/pic_tx"/>
+                app:imageUrl="@{data.img_url}"
+                app:error="@{@drawable/pic_tx}"
+                app:placeHolder="@{@drawable/pic_tx}"/>
                 <TextView
                     android:id="@+id/tv_user_name"
                     android:layout_width="wrap_content"
@@ -34,7 +40,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_alignTop="@+id/img_pic"
                     android:layout_toRightOf="@+id/img_pic"
-                    android:text="@string/txt_my_balance"/>
+                    android:text="@{data.user_name}"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -42,7 +48,7 @@
                     android:layout_alignLeft="@+id/tv_user_name"
                     android:layout_below="@+id/tv_user_name"
                     android:layout_marginTop="10dp"
-                    android:text="@string/txt_my_balance"/>
+                    android:text="@{Common.getSecurityPhoneNum(data.account_number)}"/>
         </RelativeLayout>
         <TextView
             android:layout_width="match_parent"

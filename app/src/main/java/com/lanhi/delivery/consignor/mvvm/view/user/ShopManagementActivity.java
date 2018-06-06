@@ -66,7 +66,6 @@ public class ShopManagementActivity extends BaseActivity {
             public void viewUpdateShopName(View v,String shopeName) {
                 super.viewUpdateShopName(v,shopeName);
                 ARouter.getInstance().build("/user/shop/name/edit").withString("shopeName",shopeName).navigation();
-
             }
 
             @Override

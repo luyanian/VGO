@@ -78,7 +78,7 @@ public class UserFragment extends Fragment {
         userViewModel.getUserInfoMutableLiveData().observe(this, new Observer<UserInfoResponse>() {
             @Override
             public void onChanged(@Nullable UserInfoResponse userInfoResponse) {
-//                userInfoResponse.
+                binding.setData(userInfoResponse.getData().get(0));
             }
         });
         userViewModel.loadUserInfo();

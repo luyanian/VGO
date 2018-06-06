@@ -6,6 +6,10 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.lanhi.delivery.consignor.api.ApiConstants;
+
+import org.w3c.dom.Text;
+
 public class ImageViewAttrAdapter {
 
     @BindingAdapter("android:src")
@@ -21,7 +25,7 @@ public class ImageViewAttrAdapter {
     @BindingAdapter({"app:imageUrl", "app:placeHolder", "app:error"})
     public static void loadImage(ImageView imageView, String url, Drawable holderDrawable, Drawable errorDrawable) {
         GlideApp.with(imageView.getContext())
-                .load(url)
+                .load(ApiConstants.HOST + url)
                 .placeholder(holderDrawable)
                 .error(errorDrawable)
                 .into(imageView);
