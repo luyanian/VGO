@@ -3,7 +3,7 @@
     <data>
         <variable
             name="listener"
-            type="com.lanhi.delivery.consignor.weight.selector.RSelectorChangeLisener"/>
+            type="com.lanhi.vgo.weight.selector.RSelectorChangeLisener"/>
         <variable
             name="leftTitle"
             type="String"/>

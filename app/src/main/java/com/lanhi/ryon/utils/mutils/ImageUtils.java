@@ -36,7 +36,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.IntRange;
 import android.view.View;
 
-import com.lanhi.delivery.consignor.App;
+import com.lanhi.vgo.App;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

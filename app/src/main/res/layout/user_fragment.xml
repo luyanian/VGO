@@ -2,19 +2,19 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="com.lanhi.delivery.consignor.common.Common"/>
+        <import type="com.lanhi.vgo.common.Common"/>
         <variable
             name="data"
-            type="com.lanhi.delivery.consignor.api.response.bean.UserInfoDataBean"/>
+            type="com.lanhi.vgo.api.response.bean.UserInfoDataBean"/>
         <variable
             name="event"
-            type="com.lanhi.delivery.consignor.common.OnEventListener"/>
+            type="com.lanhi.vgo.common.OnEventListener"/>
     </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <com.lanhi.delivery.consignor.weight.titlebar.Titlebar
+        <com.lanhi.vgo.weight.titlebar.Titlebar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/menu_my_text"/>

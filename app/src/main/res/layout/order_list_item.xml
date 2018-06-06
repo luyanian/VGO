@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <import type="com.lanhi.delivery.consignor.common.Common"/>
+        <import type="com.lanhi.vgo.common.Common"/>
         <variable
             name="data"
-            type="com.lanhi.delivery.consignor.api.response.OrderListResponse.OrderListBean"/>
+            type="com.lanhi.vgo.api.response.OrderListResponse.OrderListBean"/>
         <variable
             name="event"
-            type="com.lanhi.delivery.consignor.common.OnEventListener"/>
+            type="com.lanhi.vgo.common.OnEventListener"/>
     </data>
     <LinearLayout
         android:layout_width="match_parent"

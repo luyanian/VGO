@@ -4,7 +4,7 @@
     <data>
         <variable
             name="listener"
-            type="com.lanhi.delivery.consignor.common.OnMenuSelectorListener"/>
+            type="com.lanhi.vgo.common.OnMenuSelectorListener"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

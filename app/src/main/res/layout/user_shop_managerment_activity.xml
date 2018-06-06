@@ -4,7 +4,7 @@
     <data>
         <variable
             name="event"
-            type="com.lanhi.delivery.consignor.common.OnEventListener"/>
+            type="com.lanhi.vgo.common.OnEventListener"/>
         <variable
             name="imageUrl"
             type="String"/>
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <com.lanhi.delivery.consignor.weight.titlebar.Titlebar
+        <com.lanhi.vgo.weight.titlebar.Titlebar
             android:id="@+id/titlebar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

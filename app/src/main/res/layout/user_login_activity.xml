@@ -5,22 +5,22 @@
         <import type="android.view.View"/>
         <variable
             name="data"
-            type="com.lanhi.delivery.consignor.mvvm.model.UserData"/>
+            type="com.lanhi.vgo.mvvm.model.UserData"/>
         <variable
             name="listener"
-            type="com.lanhi.delivery.consignor.common.OnEventListener"/>
+            type="com.lanhi.vgo.common.OnEventListener"/>
     </data>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.lanhi.delivery.consignor.weight.titlebar.Titlebar
+        <com.lanhi.vgo.weight.titlebar.Titlebar
             android:id="@+id/titlebar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/sign_in"/>
 
-        <com.lanhi.delivery.consignor.weight.selector.RSelector
+        <com.lanhi.vgo.weight.selector.RSelector
             android:id="@+id/rselector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

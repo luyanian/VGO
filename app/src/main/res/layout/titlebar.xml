@@ -7,7 +7,7 @@
         <variable name="paddingTop" type="Integer"/>
         <variable name="showRightTextButton" type="Boolean"/>
         <variable name="rightButtonText" type="String"/>
-        <variable name="options" type="com.lanhi.delivery.consignor.weight.titlebar.TitleBarOptions"/>
+        <variable name="options" type="com.lanhi.vgo.weight.titlebar.TitleBarOptions"/>
     </data>
     <RelativeLayout
         android:id="@+id/rl_title_bar"

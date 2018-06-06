@@ -2,10 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="com.lanhi.delivery.consignor.common.Common"/>
+        <import type="com.lanhi.vgo.common.Common"/>
         <variable
             name="event"
-            type="com.lanhi.delivery.consignor.common.OnEventListener"/>
+            type="com.lanhi.vgo.common.OnEventListener"/>
         <variable
             name="hotline"
             type="String"/>
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <com.lanhi.delivery.consignor.weight.titlebar.Titlebar
+        <com.lanhi.vgo.weight.titlebar.Titlebar
             android:id="@+id/titlebar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

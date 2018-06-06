@@ -4,13 +4,13 @@
     <data>
         <variable
             name="data"
-            type="com.lanhi.delivery.consignor.api.response.OrderDetailResponse"/>
+            type="com.lanhi.vgo.api.response.OrderDetailResponse"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <com.lanhi.delivery.consignor.weight.titlebar.Titlebar
+        <com.lanhi.vgo.weight.titlebar.Titlebar
             android:id="@+id/titlebar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

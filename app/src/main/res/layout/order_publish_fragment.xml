@@ -5,28 +5,28 @@
     <data>
         <variable
             name="data"
-            type="com.lanhi.delivery.consignor.mvvm.model.OrderData"/>
+            type="com.lanhi.vgo.mvvm.model.OrderData"/>
         <variable
             name="listener"
-            type="com.lanhi.delivery.consignor.common.OnEventListener"/>
+            type="com.lanhi.vgo.common.OnEventListener"/>
         <variable
             name="recipentStateCityViewModel"
-            type="com.lanhi.delivery.consignor.mvvm.viewmodel.StateCityViewModel"/>
+            type="com.lanhi.vgo.mvvm.viewmodel.StateCityViewModel"/>
         <variable
             name="consignorStateCityViewModel"
-            type="com.lanhi.delivery.consignor.mvvm.viewmodel.ConsignorStateCityViewModel"/>
+            type="com.lanhi.vgo.mvvm.viewmodel.ConsignorStateCityViewModel"/>
         <variable
             name="stateAdapter"
-            type="com.lanhi.delivery.consignor.adapter.StateCityAdapter"/>
+            type="com.lanhi.vgo.adapter.StateCityAdapter"/>
         <variable
             name="cityAdapter"
-            type="com.lanhi.delivery.consignor.adapter.StateCityAdapter"/>
+            type="com.lanhi.vgo.adapter.StateCityAdapter"/>
     </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <com.lanhi.delivery.consignor.weight.titlebar.Titlebar
+        <com.lanhi.vgo.weight.titlebar.Titlebar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/menu_home_text"/>

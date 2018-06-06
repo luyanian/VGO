@@ -3,32 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools">
     <data>
-        <import type="com.lanhi.delivery.consignor.mvvm.model.StateCityData"/>
+        <import type="com.lanhi.vgo.mvvm.model.StateCityData"/>
         <variable
             name="data"
-            type="com.lanhi.delivery.consignor.mvvm.model.UserData"/>
+            type="com.lanhi.vgo.mvvm.model.UserData"/>
         <variable
             name="titleBarOptions"
-            type="com.lanhi.delivery.consignor.weight.titlebar.TitleBarOptions"/>
+            type="com.lanhi.vgo.weight.titlebar.TitleBarOptions"/>
         <variable
             name="listener"
-            type="com.lanhi.delivery.consignor.common.OnEventListener"/>
+            type="com.lanhi.vgo.common.OnEventListener"/>
         <variable
             name="stateCityViewModel"
-            type="com.lanhi.delivery.consignor.mvvm.viewmodel.StateCityViewModel"/>
+            type="com.lanhi.vgo.mvvm.viewmodel.StateCityViewModel"/>
         <variable
             name="stateAdapter"
-            type="com.lanhi.delivery.consignor.adapter.StateCityAdapter"/>
+            type="com.lanhi.vgo.adapter.StateCityAdapter"/>
         <variable
             name="cityAdapter"
-            type="com.lanhi.delivery.consignor.adapter.StateCityAdapter"/>
+            type="com.lanhi.vgo.adapter.StateCityAdapter"/>
     </data>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#f2f2f2">
-        <com.lanhi.delivery.consignor.weight.titlebar.Titlebar
+        <com.lanhi.vgo.weight.titlebar.Titlebar
             android:id="@+id/titlebar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
