@@ -145,6 +145,7 @@ public class OrderViewModel extends AndroidViewModel {
             }
         });
     }
+
     public MutableLiveData<OrderDetailResponse> getOrderDetailLiveData(){
         return orderDetailLiveData;
     }

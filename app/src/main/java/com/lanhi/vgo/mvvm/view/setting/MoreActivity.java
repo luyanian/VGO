@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.lanhi.vgo.BaseActivity;
 import com.lanhi.vgo.R;
 import com.lanhi.vgo.api.response.HotlineResponse;
@@ -42,6 +43,12 @@ public class MoreActivity extends BaseActivity {
                 super.onclickHotLine(v,phone);
                 PhoneUtils.dial(phone);
             }
+
+            @Override
+            public void viewWebView(View v, int flag) {
+                super.viewWebView(v, flag);
+                ARouter.getInstance().build("/setting/webview").withInt("flag",flag).navigation();
+            }
         });
         userViewModel.getHotLineMutableLiveData().observe(this, new Observer<HotlineResponse.DataBean>() {
             @Override
@@ -52,7 +59,6 @@ public class MoreActivity extends BaseActivity {
             }
         });
         userViewModel.getHotLine();
-        userViewModel.getAboutMeInfo();
 
     }
 }

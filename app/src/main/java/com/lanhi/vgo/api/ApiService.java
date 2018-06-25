@@ -1,6 +1,5 @@
 package com.lanhi.vgo.api;
 
-import com.lanhi.vgo.api.response.AboutMeResponse;
 import com.lanhi.vgo.api.response.BaseResponse;
 import com.lanhi.vgo.api.response.GetCityResponse;
 import com.lanhi.vgo.api.response.GetStateCityResponse;
@@ -12,6 +11,7 @@ import com.lanhi.vgo.api.response.OrderDetailResponse;
 import com.lanhi.vgo.api.response.OrderListResponse;
 import com.lanhi.vgo.api.response.UploadFileResponse;
 import com.lanhi.vgo.api.response.UserInfoResponse;
+import com.lanhi.vgo.api.response.WebInfoResponse;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -98,7 +98,11 @@ public interface ApiService{
 
     @FormUrlEncoded
     @POST("appinterface/getapp_introduce.shtml")
-    Observable<AboutMeResponse> getAboutMeInfo(@Field("str") String str);
+    Observable<WebInfoResponse> getAboutMeInfo(@Field("str") String str);
+
+    @FormUrlEncoded
+    @POST("appinterface/getagreement.shtml")
+    Observable<WebInfoResponse> getAgreenmentInfo(@Field("str") String str);
 
     @Headers({
             "Accept: application/json",

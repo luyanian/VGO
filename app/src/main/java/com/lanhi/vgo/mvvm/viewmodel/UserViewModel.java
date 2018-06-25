@@ -7,19 +7,20 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.lanhi.ryon.utils.mutils.RegexUtils;
+import com.lanhi.ryon.utils.mutils.SPUtils;
+import com.lanhi.ryon.utils.mutils.ToastUtils;
 import com.lanhi.vgo.App;
 import com.lanhi.vgo.R;
 import com.lanhi.vgo.api.ApiRepository;
-import com.lanhi.vgo.api.response.AboutMeResponse;
 import com.lanhi.vgo.api.response.BaseResponse;
-import com.lanhi.vgo.api.response.GetCityResponse;
 import com.lanhi.vgo.api.response.GetStateCityResponse;
-import com.lanhi.vgo.api.response.GetStatesResponse;
 import com.lanhi.vgo.api.response.GetVertificationResponse;
 import com.lanhi.vgo.api.response.HotlineResponse;
 import com.lanhi.vgo.api.response.LoginResponse;
 import com.lanhi.vgo.api.response.UploadFileResponse;
 import com.lanhi.vgo.api.response.UserInfoResponse;
+import com.lanhi.vgo.api.response.WebInfoResponse;
 import com.lanhi.vgo.api.response.bean.UserInfoDataBean;
 import com.lanhi.vgo.common.Common;
 import com.lanhi.vgo.common.GlobalParams;
@@ -27,9 +28,6 @@ import com.lanhi.vgo.common.RObserver;
 import com.lanhi.vgo.common.SPKeys;
 import com.lanhi.vgo.mvvm.model.StateCityData;
 import com.lanhi.vgo.mvvm.model.UserData;
-import com.lanhi.ryon.utils.mutils.RegexUtils;
-import com.lanhi.ryon.utils.mutils.SPUtils;
-import com.lanhi.ryon.utils.mutils.ToastUtils;
 
 import java.io.File;
 import java.util.HashMap;
@@ -40,6 +38,7 @@ import static com.lanhi.vgo.common.GlobalParams.USER_TYPE;
 public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<UserData> mutableLiveData = new MutableLiveData<>();
     private MutableLiveData<HotlineResponse.DataBean> hotLineMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> aboutAgreenmentInfoMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<UserInfoResponse> userInfoResponseMutableLiveData = new MutableLiveData<>();
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -56,8 +55,11 @@ public class UserViewModel extends AndroidViewModel {
     public MutableLiveData<HotlineResponse.DataBean> getHotLineMutableLiveData() {
         return hotLineMutableLiveData;
     }
+    public MutableLiveData<String> getAboutAgreenmentInfoMutableLiveData() {
+        return aboutAgreenmentInfoMutableLiveData;
+    }
 
-    public void getVerification(RObserver<GetVertificationResponse> rObserver,String scop) {
+    public void getVerification(RObserver<GetVertificationResponse> rObserver, String scop) {
         UserData registData = getLiveDate().getValue();
         if(TextUtils.isEmpty(registData.getPhone())){
             ToastUtils.showShort(App.getInstance().getResources().getString(R.string.error_empty_mobile));
@@ -109,7 +111,7 @@ public class UserViewModel extends AndroidViewModel {
         rObserver.onSuccess(new BaseResponse());
     }
 
-    public void regist(StateCityData stateCityData,RObserver<BaseResponse> rObserver) {
+    public void regist(StateCityData stateCityData, RObserver<BaseResponse> rObserver) {
         UserData registData = getLiveDate().getValue();
         if(TextUtils.isEmpty(registData.getPhone())){
             ToastUtils.showShort(App.getInstance().getResources().getString(R.string.error_empty_mobile));
@@ -200,7 +202,7 @@ public class UserViewModel extends AndroidViewModel {
         UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
         if(userInfoData!=null){
             Map map = new HashMap();
-            map.put("tokenid",Common.getToken());
+            map.put("tokenid", Common.getToken());
             map.put("userid",userInfoData.getId());
             String json = new Gson().toJson(map);
             ApiRepository.getUserInfo(json).subscribe(new RObserver<UserInfoResponse>() {
@@ -280,10 +282,25 @@ public class UserViewModel extends AndroidViewModel {
         Map map = new HashMap();
         map.put("tokenid",Common.getToken());
         String json = new Gson().toJson(map);
-        ApiRepository.getAboutMeInfo(json).subscribe(new RObserver<AboutMeResponse>() {
+        ApiRepository.getAboutMeInfo(json).subscribe(new RObserver<WebInfoResponse>() {
             @Override
-            public void onSuccess(AboutMeResponse aboutMeResponse) {
-
+            public void onSuccess(WebInfoResponse webInfoResponse) {
+                if(webInfoResponse.getData()!=null&&webInfoResponse.getData().size()>0&&webInfoResponse.getData().get(0)!=null) {
+                    aboutAgreenmentInfoMutableLiveData.setValue(webInfoResponse.getData().get(0).getInfo());
+                }
+            }
+        });
+    }
+    public void getAgreenmentInfo(){
+        Map map = new HashMap();
+        map.put("tokenid",Common.getToken());
+        String json = new Gson().toJson(map);
+        ApiRepository.getAgreenmentInfo(json).subscribe(new RObserver<WebInfoResponse>() {
+            @Override
+            public void onSuccess(WebInfoResponse webInfoResponse) {
+                if(webInfoResponse.getData()!=null&&webInfoResponse.getData().size()>0&&webInfoResponse.getData().get(0)!=null) {
+                    aboutAgreenmentInfoMutableLiveData.setValue(webInfoResponse.getData().get(0).getInfo());
+                }
             }
         });
     }

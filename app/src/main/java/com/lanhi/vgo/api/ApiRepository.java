@@ -1,6 +1,5 @@
 package com.lanhi.vgo.api;
 
-import com.lanhi.vgo.api.response.AboutMeResponse;
 import com.lanhi.vgo.api.response.BaseResponse;
 import com.lanhi.vgo.api.response.GetCityResponse;
 import com.lanhi.vgo.api.response.GetStateCityResponse;
@@ -11,6 +10,7 @@ import com.lanhi.vgo.api.response.OrderDetailResponse;
 import com.lanhi.vgo.api.response.OrderListResponse;
 import com.lanhi.vgo.api.response.UploadFileResponse;
 import com.lanhi.vgo.api.response.UserInfoResponse;
+import com.lanhi.vgo.api.response.WebInfoResponse;
 import com.lanhi.vgo.common.Common;
 import com.lanhi.vgo.api.response.LoginResponse;
 
@@ -143,8 +143,15 @@ public class ApiRepository {
         return observable;
     }
 
-    public static Observable<AboutMeResponse> getAboutMeInfo(String str) {
-        Observable<AboutMeResponse> observable = ApiClient.getApiService().getAboutMeInfo(Common.rsaEncrypt(str))
+    public static Observable<WebInfoResponse> getAboutMeInfo(String str) {
+        Observable<WebInfoResponse> observable = ApiClient.getApiService().getAboutMeInfo(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+
+    public static Observable<WebInfoResponse> getAgreenmentInfo(String str) {
+        Observable<WebInfoResponse> observable = ApiClient.getApiService().getAgreenmentInfo(Common.rsaEncrypt(str))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         return observable;

@@ -28,6 +28,7 @@ public class OnEventListener {
     public void viewUserAccunt(View v){}
     public void viewUserFinancial(View v){}
     public void viewUserMore(View v){}
+    public void viewWebView(View v,int flag){}
 
     public void viewUpdateShopName(View v,String shopeName){}
     public void updateShopImg(View v){}

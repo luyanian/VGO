@@ -92,6 +92,13 @@
     <string name="txt_more_about_me">关于我们</string>
     <string name="txt_more_hotline">服务热线</string>
 
+    <string name="txt_order_shope_name">店铺名称:</string>
+    <string name="txt_order_pike_address">取货地址:</string>
+    <string name="txt_order_driver_fee">配送费用:</string>
+    <string name="txt_order_driver_name">配送人员:</string>
+    <string name="txt_order_estimate_pike_time">预计取货时间:</string>
+    <string name="txt_order_note">备注信息:</string>
+
     <string name="error_vertify_vercode">短信验证码无效</string>
     <string name="error_user_tocken">登录信息失效，请重新登录！</string>
     <string name="error_service">服务器错误</string>

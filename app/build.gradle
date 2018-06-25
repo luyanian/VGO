@@ -88,7 +88,8 @@ dependencies {
     // RxJava
     implementation deps.rx_android
     //google firebase
-    implementation deps.google.firebase
+    implementation deps.firebase.core
+    implementation deps.firebase.messaging
     //refresh
     implementation deps.smartrefresh.refreshlayout
     implementation deps.smartrefresh.refreshheader

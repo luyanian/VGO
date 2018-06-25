@@ -50,6 +50,14 @@ public class Titlebar extends RelativeLayout{
         }
     }
 
+    public void setTitle(int text) {
+        setTitle(getResources().getString(text));
+    }
+
+    public void setTitle(String text) {
+        binding.setTitle(text);
+    }
+
     public void setTitleBarOptions(TitleBarOptions titleBarOptions) {
         binding.setOptions(titleBarOptions);
     }

@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="com.lanhi.vgo.mvvm.view.setting.WebViewActivity.FLAG"/>
         <import type="com.lanhi.vgo.common.Common"/>
         <variable
             name="event"
@@ -26,7 +27,7 @@
             android:layout_height="45dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:onClick="@{(v)->event.viewUserAccunt(v)}"
+            android:onClick="@{(v)->event.viewWebView(v,FLAG.FLAG_AGREENMENT)}"
             android:background="@drawable/shap_tiled_bg">
             <TextView
                 android:layout_width="wrap_content"
@@ -51,7 +52,7 @@
             android:layout_height="45dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:onClick="@{(v)->event.viewUserAccountInfo(v)}"
+            android:onClick="@{(v)->event.viewWebView(v,FLAG.FLAG_ABOUTME)}"
             android:background="@drawable/shap_tiled_bg">
             <TextView
                 android:layout_width="wrap_content"

@@ -75,9 +75,9 @@ public class Common {
 
         return stateString;
     }
-    public static String getBtnTextWithOrderState(String orderid){
+    public static String getBtnTextWithOrderState(String state){
         String stateString = "";
-        switch (orderid){
+        switch (state){
             case GlobalParams.ORDER_STATE.CANCLE:
                 stateString = App.getInstance().getResources().getString(R.string.btn_order_list_view_detail);
                 break;
@@ -106,6 +106,15 @@ public class Common {
             return "";
         }else {
             return RegexUtils.getSecurityPhoneNum(phone);
+        }
+    }
+
+    public static int isOrderDriverNameViewVisible(){
+        String state="1";
+        if(GlobalParams.ORDER_STATE.UNANSWEWD.equals(state)){
+            return View.GONE;
+        }else{
+            return View.VISIBLE;
         }
     }
 
