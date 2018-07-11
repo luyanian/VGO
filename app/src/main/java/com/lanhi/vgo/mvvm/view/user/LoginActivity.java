@@ -60,6 +60,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void login(View v) {
                 super.login(v);
+                viewModel.testDistanceMetrix();
                 viewModel.login(new RObserver<LoginResponse>() {
                     @Override
                     public void onSuccess(LoginResponse loginResponse) {

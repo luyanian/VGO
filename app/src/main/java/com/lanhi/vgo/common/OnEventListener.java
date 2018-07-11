@@ -38,4 +38,5 @@ public class OnEventListener {
     public void viewUserAccountInfo(View v){}
     public void viewPasswordEdit(View v){}
     public void onclickHotLine(View v,String phone){}
+    public void callDelevery(View v,String phone){}
 }

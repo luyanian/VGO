@@ -168,4 +168,11 @@ public class ApiRepository {
                 .observeOn(AndroidSchedulers.mainThread());
         return observable;
     }
+
+    public static Observable<String> testDistanceMetrix() {
+        Observable<String> observable = ApiClient.getApiService().testDistanceMetrix("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=天津市东丽区空港商务园&destinations=天津市东丽区华明镇润园&key=AIzaSyAXst1lQfAsaOfNs52zb8OaZcF7IsCw9E4")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
 }

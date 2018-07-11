@@ -6,6 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.lanhi.ryon.utils.mutils.LogUtils;
 import com.lanhi.vgo.api.ApiRepository;
 import com.lanhi.vgo.api.response.BaseResponse;
 import com.lanhi.vgo.api.response.LoginResponse;
@@ -21,6 +22,8 @@ import com.lanhi.ryon.utils.mutils.SPUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.reactivex.functions.Consumer;
 
 public class OrderViewModel extends AndroidViewModel {
 
@@ -129,7 +132,7 @@ public class OrderViewModel extends AndroidViewModel {
         }
         Map map = new HashMap();
         map.put("tokenid", Common.getToken());
-        map.put("order_code",user.getOrder_code());
+        map.put("ordercode",user.getOrder_code());
         ApiRepository.cancelOrder(new Gson().toJson(map)).subscribe(rObserver);
 
     }
@@ -137,7 +140,8 @@ public class OrderViewModel extends AndroidViewModel {
     public void getOrderDetail(String order_code) {
         Map map = new HashMap();
         map.put("tokenid", Common.getToken());
-        map.put("order_code",order_code);
+        map.put("ordercode",order_code);
+
         ApiRepository.getOrderDetail(new Gson().toJson(map)).subscribe(new RObserver<OrderDetailResponse>() {
             @Override
             public void onSuccess(OrderDetailResponse orderDetailResponse) {

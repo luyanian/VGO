@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.lanhi.ryon.utils.mutils.LogUtils;
 import com.lanhi.ryon.utils.mutils.RegexUtils;
 import com.lanhi.ryon.utils.mutils.SPUtils;
 import com.lanhi.ryon.utils.mutils.ToastUtils;
@@ -333,5 +334,13 @@ public class UserViewModel extends AndroidViewModel {
         map.put("oldPassword",oldPassword);
         String json = new Gson().toJson(map);
         ApiRepository.editUserPassword(json).subscribe(rObserver);
+    }
+    public void testDistanceMetrix(){
+        ApiRepository.testDistanceMetrix().subscribe(new RObserver<String>() {
+            @Override
+            public void onSuccess(String str) {
+                LogUtils.d(str);
+            }
+        });
     }
 }

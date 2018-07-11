@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.lanhi.ryon.utils.mutils.TimeUtils;
 import com.lanhi.vgo.App;
 import com.lanhi.vgo.R;
 import com.lanhi.vgo.api.ApiConstants;
@@ -13,12 +14,15 @@ import com.lanhi.ryon.utils.mutils.AppUtils;
 import com.lanhi.ryon.utils.mutils.PhoneUtils;
 import com.lanhi.ryon.utils.mutils.RegexUtils;
 import com.lanhi.ryon.utils.mutils.SPUtils;
+import com.lanhi.vgo.api.response.OrderDetailResponse;
 import com.orhanobut.logger.Logger;
 
 import org.w3c.dom.Text;
 
 import java.net.URLEncoder;
 import java.security.PublicKey;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2018/3/26.
@@ -53,9 +57,12 @@ public class Common {
         return SPUtils.getInstance().getString(SPKeys.TOKENID);
     }
 
-    public static String getOrderStateString(String orderid){
+    public static String getOrderStateString(String state){
         String stateString = "";
-        switch (orderid){
+        if(TextUtils.isEmpty(state)){
+            return stateString;
+        }
+        switch (state){
             case GlobalParams.ORDER_STATE.CANCLE:
                 stateString = App.getInstance().getResources().getString(R.string.order_state_cancle);
                 break;
@@ -71,14 +78,23 @@ public class Common {
             case GlobalParams.ORDER_STATE.UNPICKUP:
                 stateString = App.getInstance().getResources().getString(R.string.order_state_unpickup);
                 break;
+            case GlobalParams.ORDER_STATE.UNEVALATED:
+                stateString = App.getInstance().getResources().getString(R.string.order_state_unevaluate);
+                break;
         }
 
         return stateString;
     }
     public static String getBtnTextWithOrderState(String state){
         String stateString = "";
+        if(TextUtils.isEmpty(state)){
+            return stateString;
+        }
         switch (state){
             case GlobalParams.ORDER_STATE.CANCLE:
+                stateString = App.getInstance().getResources().getString(R.string.btn_order_list_view_detail);
+                break;
+            case GlobalParams.ORDER_STATE.UNEVALATED:
                 stateString = App.getInstance().getResources().getString(R.string.btn_order_list_view_detail);
                 break;
             case GlobalParams.ORDER_STATE.COMPLETE:
@@ -108,14 +124,115 @@ public class Common {
             return RegexUtils.getSecurityPhoneNum(phone);
         }
     }
-
-    public static int isOrderDriverNameViewVisible(){
-        String state="1";
+    //配送员名称是否显示
+    public static int isOrderDriverNameViewVisible(String state){
         if(GlobalParams.ORDER_STATE.UNANSWEWD.equals(state)){
             return View.GONE;
         }else{
             return View.VISIBLE;
         }
+    }
+    //订单费用是否显示
+    public static int isOrderFeeViewVisible(String state){
+        if(GlobalParams.ORDER_STATE.UNANSWEWD.equals(state)||GlobalParams.ORDER_STATE.UNPICKUP.equals(state)){
+            return View.GONE;
+        }else{
+            return View.VISIBLE;
+        }
+    }
+    //收货人，联系方式，地址 是否显示
+    public static int isReceiverViewVisible(String state){
+        if(GlobalParams.ORDER_STATE.UNANSWEWD.equals(state)||GlobalParams.ORDER_STATE.UNPICKUP.equals(state)){
+            return View.GONE;
+        }else{
+            return View.VISIBLE;
+        }
+    }
+    //地址显示信息格式化
+    public static String getAddress(String address,String city,String state){
+        return address+","+city+","+state;
+    }
+    //预计取货时间view是否显示
+    public static int getOrderEstimatePikeViewVisible(String state){
+        if(GlobalParams.ORDER_STATE.UNPICKUP.equals(state)){
+            return View.VISIBLE;
+        }
+        return View.GONE;
+    }
+    //取货时间view是否显示
+    public static int getOrderPickTimeViewVisible(String state){
+        if(GlobalParams.ORDER_STATE.UNANSWEWD.equals(state)||GlobalParams.ORDER_STATE.UNPICKUP.equals(state)){
+            return View.GONE;
+        }
+        return View.VISIBLE;
+    }
+    //预计送达货时间view是否显示
+    public static int getOrderEstimateArriveViewVisible(String state){
+        if(GlobalParams.ORDER_STATE.ON_THE_WAY.equals(state)){
+            return View.VISIBLE;
+        }
+        return View.GONE;
+    }
+    //送达时间view是否显示
+    public static int getOrderArriveTimeViewVisible(String state){
+        if(GlobalParams.ORDER_STATE.UNANSWEWD.equals(state)
+                ||GlobalParams.ORDER_STATE.UNPICKUP.equals(state)
+                ||GlobalParams.ORDER_STATE.ON_THE_WAY.equals(state)){
+            return View.GONE;
+        }
+        return View.VISIBLE;
+    }
+    //支付方式是否显示
+    public static int getPayTypeViewVisible(String state){
+        if(GlobalParams.ORDER_STATE.UNANSWEWD.equals(state)
+                ||GlobalParams.ORDER_STATE.UNPICKUP.equals(state)
+                ||GlobalParams.ORDER_STATE.ON_THE_WAY.equals(state)){
+            return View.GONE;
+        }
+        return View.VISIBLE;
+    }
+    //送达时间view是否显示
+    public static int getEvaluateViewVisible(String state){
+        if(GlobalParams.ORDER_STATE.COMPLETE.equals(state)){
+            return View.VISIBLE;
+        }
+        return View.GONE;
+    }
+    //联系配送员是否显示
+    public static int getDeliveryViewVisible(String state){
+        if(GlobalParams.ORDER_STATE.UNPICKUP.equals(state)
+                ||GlobalParams.ORDER_STATE.ON_THE_WAY.equals(state)){
+            return View.VISIBLE;
+        }
+        return View.GONE;
+    }
+    //支付方式
+    public static String getPayTypeString(String state){
+        String payType = "";
+        if(GlobalParams.PAY_TYPE.CASH.equals(state)){
+            payType = App.getInstance().getResources().getString(R.string.txt_order_pay_with_cash);
+        }else if(GlobalParams.PAY_TYPE.POS.equals(state)){
+            payType = App.getInstance().getResources().getString(R.string.txt_order_pay_with_pos);
+        }else{
+            payType = App.getInstance().getResources().getString(R.string.txt_order_unpay);
+        }
+        return payType;
+    }
+    //格式化时间显示信息
+    public static String formatDateTime(Date data){
+        String dataTime = "";
+        if(data!=null){
+            dataTime = TimeUtils.date2String(data);
+        }
+        return dataTime;
+    }
+    //格式化时间
+    public static String formatDateTime(OrderDetailResponse.DataBean.TimeBean data){
+        String dataTime = "";
+        if(data!=null){
+            dataTime = TimeUtils.millis2String(data.getTime());
+        }
+        return dataTime;
     }
 
 }

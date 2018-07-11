@@ -19,6 +19,7 @@
     <string name="order_state_unanswewd">待抢单</string>
     <string name="order_state_unpickup">待取货</string>
     <string name="order_state_on_the_way">配送中</string>
+    <string name="order_state_unevaluate">待评价</string>
     <string name="order_state_complete">已完成</string>
 
     <string name="btn_sign_out">退出登录</string>
@@ -28,6 +29,7 @@
     <string name="btn_regist_and_sign_in">注册，并立即登录</string>
     <string name="btn_vertify_right_now">立即验证</string>
     <string name="btn_order_publish">发布订单</string>
+    <string name="btn_order_call_delivery">联系配送员</string>
     <string name="btn_order_publish_cancel">清空信息</string>
     <string name="btn_order_list_publish_cancel">取消发布</string>
     <string name="btn_order_list_view_detail">查看详情</string>
@@ -94,10 +96,23 @@
 
     <string name="txt_order_shope_name">店铺名称:</string>
     <string name="txt_order_pike_address">取货地址:</string>
+    <string name="txt_order_fee">订单金额:</string>
+    <string name="txt_order_receiver">收货人:</string>
+    <string name="txt_order_receiver_tel">联系方式:</string>
+    <string name="txt_order_receiver_address">收货地址:</string>
     <string name="txt_order_driver_fee">配送费用:</string>
     <string name="txt_order_driver_name">配送人员:</string>
     <string name="txt_order_estimate_pike_time">预计取货时间:</string>
+    <string name="txt_order_pike_time">取货时间:</string>
+    <string name="txt_order_estimate_arrive_time">预计送达时间:</string>
+    <string name="txt_order_arrive_time">送达时间:</string>
+    <string name="txt_order_pay_type">支付方式:</string>
+    <string name="txt_order_pay_with_cash">现金:</string>
+    <string name="txt_order_pay_with_pos">刷卡:</string>
+    <string name="txt_order_unpay">未支付:</string>
     <string name="txt_order_note">备注信息:</string>
+    <string name="txt_order_evaluate">星级评价:</string>
+    <string name="txt_order_overall_score">综合评分</string>
 
     <string name="error_vertify_vercode">短信验证码无效</string>
     <string name="error_user_tocken">登录信息失效，请重新登录！</string>

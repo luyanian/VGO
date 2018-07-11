@@ -5,12 +5,15 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.lanhi.ryon.utils.mutils.PhoneUtils;
 import com.lanhi.vgo.BaseActivity;
 import com.lanhi.vgo.R;
 import com.lanhi.vgo.api.response.OrderDetailResponse;
+import com.lanhi.vgo.common.OnEventListener;
 import com.lanhi.vgo.databinding.OrderDetailActivityBinding;
 import com.lanhi.vgo.mvvm.viewmodel.OrderViewModel;
 import com.lanhi.vgo.weight.titlebar.TitleBarOptions;
@@ -38,7 +41,18 @@ public class OrderDetailActivity extends BaseActivity {
             @Override
             public void onChanged(@Nullable OrderDetailResponse orderDetailResponse) {
                 OrderDetailActivity.this.orderDetailResponse = orderDetailResponse;
-                binding.setData(orderDetailResponse);
+                if(orderDetailResponse!=null&&orderDetailResponse.getData()!=null&&orderDetailResponse.getData().size()>0&&orderDetailResponse.getData().get(0)!=null){
+                    binding.setData(orderDetailResponse.getData().get(0));
+                }
+            }
+        });
+        binding.setListener(new OnEventListener(){
+            @Override
+            public void callDelevery(View v, String phone) {
+                super.callDelevery(v, phone);
+                if(!TextUtils.isEmpty(phone)){
+                    PhoneUtils.dial(phone);
+                }
             }
         });
         orderViewModel.getOrderDetail(order_code);
