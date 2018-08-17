@@ -8,7 +8,9 @@ import com.lanhi.ryon.utils.mutils.TimeUtils;
 import com.lanhi.vgo.App;
 import com.lanhi.vgo.R;
 import com.lanhi.vgo.api.ApiConstants;
+import com.lanhi.vgo.api.ApiRepository;
 import com.lanhi.vgo.api.RSAEncryptor;
+import com.lanhi.vgo.api.response.DistanceMatrixResponse;
 import com.lanhi.vgo.api.response.LoginResponse;
 import com.lanhi.ryon.utils.mutils.AppUtils;
 import com.lanhi.ryon.utils.mutils.PhoneUtils;
@@ -23,6 +25,8 @@ import java.net.URLEncoder;
 import java.security.PublicKey;
 import java.sql.Timestamp;
 import java.util.Date;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by Administrator on 2018/3/26.
@@ -234,5 +238,37 @@ public class Common {
         }
         return dataTime;
     }
+    //根据订单状态显示通知内容
+    public static String getNotifyOrderContent(String state){
+        if(GlobalParams.ORDER_STATE.UNANSWEWD.equals(state)){
+            return "Receive the new order push, click to quickly grab the order!";
+        }else if(GlobalParams.ORDER_STATE.UNPICKUP.equals(state)){
+            return "There's a driver for you,click to see the details.";
+        }else if(GlobalParams.ORDER_STATE.ON_THE_WAY.equals(state)){
+            return "The driver takes the goods,click to see the details.";
+        }else if(GlobalParams.ORDER_STATE.UNEVALATED.equals(state)){
+            return "The goods have been delivered,click to see the details.";
+        }
+        return "Click to see the details.";
+    }
 
+    //根据提现状态显示通知内容
+    public static String getNotifyCashContent(String state){
+        if("1".equals(state)){
+            return "Your cash application has been passed,click to see the details.";
+        }else if("0".equals(state)){
+            return "Your cash application has not been approved,click to see the reason.";
+        }
+        return "Click to see the details.";
+    }
+
+    //google map  计算两地之间的距离
+    public static void getDistance(String from,String to,Consumer<DistanceMatrixResponse> consumer){
+        String url ="https://maps.googleapis.com/maps/api/distancematrix/json?origins="
+                +from
+                +"&destinations="
+                +to
+                +"&departure_time=now&key=AIzaSyBzeTTg-Jm3WrfOzjeezHQHwhBcnZejzYI";
+        ApiRepository.getDistanceMetrix(url).subscribe(consumer);
+    }
 }

@@ -7,39 +7,47 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.lanhi.vgo.App;
+import com.google.gson.Gson;
 import com.lanhi.vgo.R;
 import com.lanhi.vgo.adapter.StateCityAdapter;
+import com.lanhi.vgo.api.ApiRepository;
 import com.lanhi.vgo.api.response.BaseResponse;
-import com.lanhi.vgo.api.response.GetCityResponse;
+import com.lanhi.vgo.api.response.DistanceFeeResponse;
+import com.lanhi.vgo.api.response.DistanceMatrixResponse;
 import com.lanhi.vgo.api.response.GetStatesResponse;
+import com.lanhi.vgo.common.Common;
 import com.lanhi.vgo.common.OnEventListener;
 import com.lanhi.vgo.common.RObserver;
 import com.lanhi.vgo.databinding.OrderPublishFragmentBinding;
 import com.lanhi.vgo.mvvm.model.OrderData;
 import com.lanhi.vgo.mvvm.model.StateCityData;
 import com.lanhi.vgo.mvvm.view.MainActivity;
-import com.lanhi.vgo.mvvm.view.user.RegistStep2Activity;
-import com.lanhi.vgo.mvvm.viewmodel.ConsignorStateCityViewModel;
-import com.lanhi.vgo.mvvm.viewmodel.OrderViewModel;
 import com.lanhi.vgo.mvvm.viewmodel.StateCityViewModel;
+import com.lanhi.vgo.mvvm.viewmodel.OrderViewModel;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import io.reactivex.functions.Consumer;
 
 public class OrderPublishFragment extends Fragment {
     OrderPublishFragmentBinding binding;
     OrderViewModel orderViewModel;
-    StateCityViewModel recipentStateCityViewModel;
-    ConsignorStateCityViewModel consignorStateCityViewModel;
-    private StateCityData currentSelectedStateCityData;
+    StateCityViewModel stateCityViewModel;
     private List<StateCityData> stateDataLists = new ArrayList<>();
     private List<StateCityData> cityDataLists = new ArrayList<>();
+    StateCityAdapter consignorStateAdapter;
+    StateCityAdapter consignorCityAdapter;
+    StateCityAdapter reciptStateAdapter;
+    StateCityAdapter reciptCityAdapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,79 +59,114 @@ public class OrderPublishFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         orderViewModel = ViewModelProviders.of(this).get(OrderViewModel.class);
-        recipentStateCityViewModel = ViewModelProviders.of(this).get(StateCityViewModel.class);
-        consignorStateCityViewModel = ViewModelProviders.of(this).get(ConsignorStateCityViewModel.class);
-        initData();
+        consignorStateAdapter = new StateCityAdapter(getActivity());
+        consignorCityAdapter = new StateCityAdapter(getActivity());
+        reciptStateAdapter = new StateCityAdapter(getActivity());
+        reciptCityAdapter = new StateCityAdapter(getActivity());
+        stateCityViewModel = ViewModelProviders.of(this).get(StateCityViewModel.class);
+        orderViewModel.getOrderPublishLiveData().observe(this, new Observer<OrderData>() {
+            @Override
+            public void onChanged(@Nullable OrderData orderData) {
+                if(orderData!=null) {
+                    initData(orderData);
+                }
+            }
+        });
         initEventListener();
     }
 
-    private void initData() {
-        final OrderData orderData = orderViewModel.getOrderPublishLiveData().getValue();
+    private void initData(final OrderData orderData) {
         binding.setData(orderData);
-        binding.setRecipentStateCityViewModel(recipentStateCityViewModel);
-        recipentStateCityViewModel.getStateLiveData().observe(this, new Observer<GetStatesResponse>() {
+        binding.setStateCityViewModel(stateCityViewModel);
+        stateCityViewModel.getStateLiveData().observe(this, new Observer<GetStatesResponse>() {
             @Override
             public void onChanged(@Nullable GetStatesResponse statesResponse) {
                 stateDataLists.clear();
-                StateCityAdapter stateCityAdapter = new StateCityAdapter(getActivity());
-                stateDataLists.addAll(recipentStateCityViewModel.getStateData());
-                StateCityData stateCityData = new StateCityData("-1","州","-1","000000",StateCityData.STATE);
-                stateDataLists.add(0, stateCityData); //insert a blank item on the top of the list
-                stateCityAdapter.changeData(stateDataLists);
-                binding.setStateAdapter(stateCityAdapter);
+                stateDataLists.addAll(stateCityViewModel.getStateData());
+                StateCityData stateData = new StateCityData("-1","州","-1","000000",StateCityData.STATE);
+                stateDataLists.add(0, stateData); //insert a blank item on the top of the list
 
-            }
-        });
-        recipentStateCityViewModel.getCurrentCityLiveData().observe(this, new Observer<GetCityResponse>() {
-            @Override
-            public void onChanged(@Nullable GetCityResponse getCityResponse) {
+                consignorStateAdapter.changeData(stateDataLists);
+                binding.setConsignorStateAdapter(consignorStateAdapter);
+
+                reciptStateAdapter.changeData(stateDataLists);
+                binding.setReciptStateAdapter(reciptStateAdapter);
+
+
                 cityDataLists.clear();
-                StateCityAdapter stateCityAdapter = new StateCityAdapter(getActivity());
-                cityDataLists.addAll(recipentStateCityViewModel.getCurrentCityData());
-                StateCityData stateCityData = new StateCityData("-1","市","-1","000000",StateCityData.CITY);
-                cityDataLists.add(0, stateCityData); //insert a blank item on the top of the list
-                stateCityAdapter.changeData(cityDataLists);
-                binding.setCityAdapter(stateCityAdapter);
+                cityDataLists.addAll(stateCityViewModel.getCurrentCitiesData(stateData.getId()));
+                StateCityData cityData = new StateCityData("-1","市","-1","000000",StateCityData.CITY);
+                cityDataLists.add(0, cityData); //insert a blank item on the top of the list
 
+                consignorCityAdapter.changeData(cityDataLists);
+                binding.setConsignorCityAdapter(consignorCityAdapter);
+
+                reciptCityAdapter.changeData(cityDataLists);
+                binding.setReciptCityAdapter(reciptCityAdapter);
+
+                stateCityViewModel.setSelectStateById("consignor",orderData.getConsignorState(),orderData.getConsignorCity());
             }
         });
-        recipentStateCityViewModel.getCurrentSelectedCityData().observe(this, new Observer<StateCityData>() {
+
+        stateCityViewModel.getCurrentConsignorSelectedStateData().observe(this, new Observer<StateCityData>() {
             @Override
             public void onChanged(@Nullable StateCityData stateCityData) {
-                currentSelectedStateCityData = stateCityData;
-            }
-        });
-        binding.setConsignorStateCityViewModel(consignorStateCityViewModel);
-        consignorStateCityViewModel.getStateLiveData().observe(this, new Observer<GetStatesResponse>() {
-            @Override
-            public void onChanged(@Nullable GetStatesResponse statesResponse) {
-                stateDataLists.clear();
-                StateCityAdapter stateCityAdapter = new StateCityAdapter(getActivity());
-                stateDataLists.addAll(consignorStateCityViewModel.getStateData());
-                StateCityData stateCityData = new StateCityData("-1","州","-1","000000",StateCityData.STATE);
-                stateDataLists.add(0, stateCityData); //insert a blank item on the top of the list
-                stateCityAdapter.changeData(stateDataLists);
-                binding.setStateAdapter(stateCityAdapter);
-                consignorStateCityViewModel.setSelectStateByName(orderData.getConsignorState());
-            }
-        });
-        consignorStateCityViewModel.getCurrentCityLiveData().observe(this, new Observer<GetCityResponse>() {
-            @Override
-            public void onChanged(@Nullable GetCityResponse getCityResponse) {
                 cityDataLists.clear();
-                StateCityAdapter stateCityAdapter = new StateCityAdapter(getActivity());
-                cityDataLists.addAll(consignorStateCityViewModel.getCurrentCityData());
-                StateCityData stateCityData = new StateCityData("-1","市","-1","000000",StateCityData.CITY);
-                cityDataLists.add(0, stateCityData); //insert a blank item on the top of the list
-                stateCityAdapter.changeData(cityDataLists);
-                binding.setCityAdapter(stateCityAdapter);
-//                consignorStateCityViewModel.setSelectCityByName(orderData.getConsignorCity());
+                cityDataLists.addAll(stateCityViewModel.getCurrentCitiesData(stateCityData.getId()));
+                StateCityData cityData = new StateCityData("-1","市","-1","000000",StateCityData.CITY);
+                cityDataLists.add(0, cityData); //insert a blank item on the top of the list
+                consignorCityAdapter.changeData(cityDataLists);
+                stateCityViewModel.setSelectCityById("consignor",stateCityData.getId(),stateCityData.getSelecteCityId());
+                if(!"-1".equals(stateCityData.getId())) {
+                    orderData.setConsignorState(stateCityData.getName());
+                    countTimeAndFee();
+                }
             }
         });
-        consignorStateCityViewModel.getCurrentSelectedCityData().observe(this, new Observer<StateCityData>() {
+        stateCityViewModel.getCurrentReciptSelectedStateData().observe(this, new Observer<StateCityData>() {
             @Override
             public void onChanged(@Nullable StateCityData stateCityData) {
-                currentSelectedStateCityData = stateCityData;
+                cityDataLists.clear();
+                cityDataLists.addAll(stateCityViewModel.getCurrentCitiesData(stateCityData.getId()));
+                StateCityData cityData = new StateCityData("-1","市","-1","000000",StateCityData.CITY);
+                cityDataLists.add(0, cityData); //insert a blank item on the top of the list
+                reciptCityAdapter.changeData(cityDataLists);
+                stateCityViewModel.setSelectCityById("recipt",stateCityData.getId(),stateCityData.getSelecteCityId());
+                if(!"-1".equals(stateCityData.getId())) {
+                    orderData.setRecipientState(stateCityData.getName());
+                    countTimeAndFee();
+                }
+            }
+        });
+
+        stateCityViewModel.getCurrentConsignorSelectedCityData().observe(this, new Observer<StateCityData>() {
+            @Override
+            public void onChanged(@Nullable StateCityData stateCityData) {
+                if(!"-1".equals(stateCityData.getId())) {
+                    orderData.setConsignorCity(stateCityData.getName());
+                    countTimeAndFee();
+                }
+            }
+        });
+        stateCityViewModel.getCurrentReciptSelectedCityData().observe(this, new Observer<StateCityData>() {
+            @Override
+            public void onChanged(@Nullable StateCityData stateCityData) {
+                if(!"-1".equals(stateCityData.getId())) {
+                    orderData.setRecipientCity(stateCityData.getName());
+                    countTimeAndFee();
+                }
+            }
+        });
+        stateCityViewModel.getConsignorAddressData().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                countTimeAndFee();
+            }
+        });
+        stateCityViewModel.getReciptAddressData().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                countTimeAndFee();
             }
         });
     }
@@ -149,6 +192,53 @@ public class OrderPublishFragment extends Fragment {
             public void cancelOrderPublish(View v) {
                 super.cancelOrderPublish(v);
                 orderViewModel.clearInputInfo();
+            }
+        });
+    }
+
+    private void countTimeAndFee(){
+        final OrderData orderData = orderViewModel.getOrderPublishLiveData().getValue();
+        if(TextUtils.isEmpty(orderData.getConsignorState())||TextUtils.isEmpty(orderData.getConsignorCity())
+                ||TextUtils.isEmpty(orderData.getConsignorAddress())||TextUtils.isEmpty(orderData.getRecipientState())
+                ||TextUtils.isEmpty(orderData.getRecipientCity())||TextUtils.isEmpty(orderData.getRecipientAddress())){
+            return;
+        }
+        String from = orderData.getConsignorState()+orderData.getConsignorCity()+orderData.getConsignorAddress();
+        String to = orderData.getRecipientState()+orderData.getRecipientCity()+orderData.getRecipientAddress();
+        Common.getDistance(from, to, new Consumer<DistanceMatrixResponse>() {
+            @Override
+            public void accept(DistanceMatrixResponse distanceMatrixResponse) throws Exception {
+                if(distanceMatrixResponse.getRows()!=null&&distanceMatrixResponse.getRows().size()>0
+                        &&distanceMatrixResponse.getRows().get(0)!=null
+                        &&distanceMatrixResponse.getRows().get(0).getElements()!=null
+                        &&distanceMatrixResponse.getRows().get(0).getElements().size()>0
+                        &&distanceMatrixResponse.getRows().get(0).getElements().get(0)!=null
+                        &&distanceMatrixResponse.getRows().get(0).getElements().get(0).getDuration()!=null){
+                    final DistanceMatrixResponse.RowsBean.ElementsBean.DurationBean durationBean = distanceMatrixResponse.getRows()
+                            .get(0).getElements().get(0).getDuration();
+                    final DistanceMatrixResponse.RowsBean.ElementsBean.DistanceBean distanceBean = distanceMatrixResponse.getRows()
+                            .get(0).getElements().get(0).getDistance();
+                    if(durationBean.getValue()>0){
+                        Map map = new HashMap();
+                        map.put("tokenid", Common.getToken());
+                        ApiRepository.getDistanceFee(new Gson().toJson(map)).subscribe(new RObserver<DistanceFeeResponse>() {
+                            @Override
+                            public void onSuccess(DistanceFeeResponse distanceFeeResponse) {
+                                if(distanceFeeResponse.getData()!=null&&distanceFeeResponse.getData().size()>0&&distanceFeeResponse.getData().get(0)!=null){
+                                    double base_fee = distanceFeeResponse.getData().get(0).getBase_fee();
+                                    double add_fee = distanceFeeResponse.getData().get(0).getAdditional_fee();
+                                    double distance = distanceBean.getValue()/1000.00;
+                                    if(distance>5) {
+                                        double driver_fee = base_fee + ((distance-5) * add_fee);
+                                        orderData.setPostageFee(new DecimalFormat("0.00").format(driver_fee));
+                                    }else{
+                                        orderData.setPostageFee(new DecimalFormat("0.00").format(base_fee));
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
             }
         });
     }

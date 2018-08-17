@@ -1,6 +1,8 @@
 package com.lanhi.vgo.api;
 
 import com.lanhi.vgo.api.response.BaseResponse;
+import com.lanhi.vgo.api.response.DistanceFeeResponse;
+import com.lanhi.vgo.api.response.DistanceMatrixResponse;
 import com.lanhi.vgo.api.response.GetCityResponse;
 import com.lanhi.vgo.api.response.GetStateCityResponse;
 import com.lanhi.vgo.api.response.GetStatesResponse;
@@ -156,6 +158,12 @@ public class ApiRepository {
                 .observeOn(AndroidSchedulers.mainThread());
         return observable;
     }
+    public static Observable<BaseResponse> getUpdateFMCToken(String str) {
+        Observable<BaseResponse> observable = ApiClient.getApiService().getUpdateFMCToken(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
 
     public static Observable<UploadFileResponse> updateShopImg(String tokenid, String userid, File file) {
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -169,8 +177,15 @@ public class ApiRepository {
         return observable;
     }
 
-    public static Observable<String> testDistanceMetrix() {
-        Observable<String> observable = ApiClient.getApiService().testDistanceMetrix("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=天津市东丽区空港商务园&destinations=天津市东丽区华明镇润园&key=AIzaSyAXst1lQfAsaOfNs52zb8OaZcF7IsCw9E4")
+    public static Observable<DistanceMatrixResponse> getDistanceMetrix(String url) {
+        Observable<DistanceMatrixResponse> observable = ApiClient.getApiService().getDistanceMetrix(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+
+    public static Observable<DistanceFeeResponse> getDistanceFee(String str) {
+        Observable<DistanceFeeResponse> observable = ApiClient.getApiService().getDistanceFee(Common.rsaEncrypt(str))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         return observable;

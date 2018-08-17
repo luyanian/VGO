@@ -39,7 +39,7 @@
         <activity android:name=".mvvm.view.setting.WebViewActivity"/>
         <activity android:name=".mvvm.view.setting.MoreActivity"/>
 
-        <meta-data android:name="firebase_messaging_auto_init_enabled" android:value="false" />
+        <meta-data android:name="firebase_messaging_auto_init_enabled" android:value="true" />
         <service
             android:name=".service.MyFirebaseMessagingService">
             <intent-filter>

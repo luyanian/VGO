@@ -1,6 +1,8 @@
 package com.lanhi.vgo.api;
 
 import com.lanhi.vgo.api.response.BaseResponse;
+import com.lanhi.vgo.api.response.DistanceFeeResponse;
+import com.lanhi.vgo.api.response.DistanceMatrixResponse;
 import com.lanhi.vgo.api.response.GetCityResponse;
 import com.lanhi.vgo.api.response.GetStateCityResponse;
 import com.lanhi.vgo.api.response.GetStatesResponse;
@@ -106,6 +108,10 @@ public interface ApiService{
     @POST("appinterface/getagreement.shtml")
     Observable<WebInfoResponse> getAgreenmentInfo(@Field("str") String str);
 
+    @FormUrlEncoded
+    @POST("appinterface/editUserAppToken.shtml")
+    Observable<BaseResponse> getUpdateFMCToken(@Field("str") String str);
+
     @Headers({
             "Accept: application/json",
     })
@@ -121,5 +127,9 @@ public interface ApiService{
     Observable<UploadFileResponse> uploadShopImg(@Part MultipartBody.Part myFile, @Part MultipartBody.Part tokenid, @Part MultipartBody.Part userid);
 
     @GET()
-    Observable<String> testDistanceMetrix(@Url String str);
+    Observable<DistanceMatrixResponse> getDistanceMetrix(@Url String str);
+
+    @FormUrlEncoded
+    @POST("appinterface/distribution_fee.shtml")
+    Observable<DistanceFeeResponse> getDistanceFee(@Field("str") String str);
 }

@@ -11,9 +11,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.lanhi.vgo.BaseActivity;
 import com.lanhi.vgo.R;
-import com.lanhi.vgo.api.response.GetCityResponse;
 import com.lanhi.vgo.api.response.GetStatesResponse;
-import com.lanhi.vgo.common.GlobalParams;
 import com.lanhi.vgo.common.SPKeys;
 import com.lanhi.vgo.mvvm.model.StateCityData;
 import com.lanhi.vgo.adapter.StateCityAdapter;
@@ -26,7 +24,6 @@ import com.lanhi.vgo.mvvm.viewmodel.StateCityViewModel;
 import com.lanhi.vgo.mvvm.viewmodel.UserViewModel;
 import com.lanhi.vgo.weight.titlebar.TitleBarOptions;
 import com.lanhi.ryon.utils.mutils.ActivityPools;
-import com.lanhi.ryon.utils.mutils.ActivityUtils;
 import com.lanhi.ryon.utils.mutils.SPUtils;
 
 import java.util.ArrayList;
@@ -39,6 +36,8 @@ public class RegistStep2Activity extends BaseActivity {
     StateCityViewModel stateCityViewModel;
     private List<StateCityData> stateDataLists = new ArrayList<>();
     private List<StateCityData> cityDataLists = new ArrayList<>();
+    private StateCityAdapter stateAdapter;
+    private StateCityAdapter cityAdapter;
 
     private StateCityData currentSelectedStateCityData;
     @Override
@@ -71,31 +70,47 @@ public class RegistStep2Activity extends BaseActivity {
         registData.setSmsCode(getIntent().getStringExtra(UserData.KEY_SMSCODE));
         binding.setData(registData);
         binding.setStateCityViewModel(stateCityViewModel);
+
         stateCityViewModel.getStateLiveData().observe(this, new Observer<GetStatesResponse>() {
             @Override
             public void onChanged(@Nullable GetStatesResponse statesResponse) {
                 stateDataLists.clear();
-                StateCityAdapter stateCityAdapter = new StateCityAdapter(RegistStep2Activity.this);
                 stateDataLists.addAll(stateCityViewModel.getStateData());
-                StateCityData stateCityData = new StateCityData("-1","州","-1","000000",StateCityData.STATE);
-                stateDataLists.add(0, stateCityData); //insert a blank item on the top of the list
-                stateCityAdapter.changeData(stateDataLists);
-                binding.setStateAdapter(stateCityAdapter);
-            }
-        });
-        stateCityViewModel.getCurrentCityLiveData().observe(this, new Observer<GetCityResponse>() {
-            @Override
-            public void onChanged(@Nullable GetCityResponse getCityResponse) {
+                StateCityData stateData = new StateCityData("-1","州","-1","000000",StateCityData.STATE);
+                stateDataLists.add(0, stateData); //insert a blank item on the top of the list
+
+                stateAdapter.changeData(stateDataLists);
+                binding.setStateAdapter(stateAdapter);
+
+
                 cityDataLists.clear();
-                StateCityAdapter stateCityAdapter = new StateCityAdapter(RegistStep2Activity.this);
-                cityDataLists.addAll(stateCityViewModel.getCurrentCityData());
-                StateCityData stateCityData = new StateCityData("-1","市","-1","000000",StateCityData.CITY);
-                cityDataLists.add(0, stateCityData); //insert a blank item on the top of the list
-                stateCityAdapter.changeData(cityDataLists);
-                binding.setCityAdapter(stateCityAdapter);
+                cityDataLists.addAll(stateCityViewModel.getCurrentCitiesData(stateData.getId()));
+                StateCityData cityData = new StateCityData("-1","市","-1","000000",StateCityData.CITY);
+                cityDataLists.add(0, cityData); //insert a blank item on the top of the list
+
+                cityAdapter.changeData(cityDataLists);
+                binding.setCityAdapter(cityAdapter);
             }
         });
-        stateCityViewModel.getCurrentSelectedCityData().observe(this, new Observer<StateCityData>() {
+
+        stateCityViewModel.getCurrentConsignorSelectedStateData().observe(this, new Observer<StateCityData>() {
+            @Override
+            public void onChanged(@Nullable StateCityData stateCityData) {
+                cityDataLists.clear();
+                cityDataLists.addAll(stateCityViewModel.getCurrentCitiesData(stateCityData.getId()));
+                StateCityData cityData = new StateCityData("-1","市","-1","000000",StateCityData.CITY);
+                cityData.setSelecteCityId("-1");
+//                consignorStateCityViewModel.getCurrentSelectedCityData().setValue(cityData);
+                cityDataLists.add(0, cityData); //insert a blank item on the top of the list
+
+                cityAdapter.changeData(cityDataLists);
+//                binding.setConsignorCityAdapter(consignorCityAdapter);
+
+                stateCityViewModel.setSelectCityById("consignor",stateCityData.getId(),stateCityData.getSelecteCityId());
+            }
+        });
+
+        stateCityViewModel.getCurrentConsignorSelectedCityData().observe(this, new Observer<StateCityData>() {
             @Override
             public void onChanged(@Nullable StateCityData stateCityData) {
                 currentSelectedStateCityData = stateCityData;

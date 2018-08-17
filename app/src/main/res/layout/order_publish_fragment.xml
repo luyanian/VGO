@@ -10,16 +10,19 @@
             name="listener"
             type="com.lanhi.vgo.common.OnEventListener"/>
         <variable
-            name="recipentStateCityViewModel"
+            name="stateCityViewModel"
             type="com.lanhi.vgo.mvvm.viewmodel.StateCityViewModel"/>
         <variable
-            name="consignorStateCityViewModel"
-            type="com.lanhi.vgo.mvvm.viewmodel.ConsignorStateCityViewModel"/>
-        <variable
-            name="stateAdapter"
+            name="consignorStateAdapter"
             type="com.lanhi.vgo.adapter.StateCityAdapter"/>
         <variable
-            name="cityAdapter"
+            name="consignorCityAdapter"
+            type="com.lanhi.vgo.adapter.StateCityAdapter"/>
+        <variable
+            name="reciptStateAdapter"
+            type="com.lanhi.vgo.adapter.StateCityAdapter"/>
+        <variable
+            name="reciptCityAdapter"
             type="com.lanhi.vgo.adapter.StateCityAdapter"/>
     </data>
     <LinearLayout
@@ -77,7 +80,7 @@
                     android:singleLine="true"
                     android:textSize="16dp"
                     android:inputType="number"
-                    android:onTextChanged="@{consignorStateCityViewModel::onEditTextChanged}"
+                    android:onTextChanged="@{stateCityViewModel::onConsignorZipcodTextChanged}"
                     android:text="@={data.consignorZipCode}"
                     android:textColor="@color/color_text"/>
                 <EditText
@@ -92,6 +95,7 @@
                     android:singleLine="true"
                     android:textSize="16dp"
                     android:inputType="text"
+                    android:onTextChanged="@{stateCityViewModel::onConsignorAddressChanged}"
                     android:text="@={data.consignorAddress}"
                     android:textColor="@color/color_text"/>
                 <LinearLayout
@@ -113,12 +117,12 @@
                             android:layout_alignParentRight="true"
                             android:src="@drawable/icon_duihao"/>
                         <android.support.v7.widget.AppCompatSpinner
-                            android:id="@+id/spiner_state"
+                            android:id="@+id/spiner_consignor_state"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@null"
-                            bind:selectedPlanet="@={consignorStateCityViewModel.observableSelectedState}"
-                            app:adapter="@{stateAdapter}"/>
+                            bind:selectedPlanet="@={stateCityViewModel.observableSelectedConsignorState}"
+                            app:adapter="@{consignorStateAdapter}"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -134,12 +138,12 @@
                             android:layout_alignParentRight="true"
                             android:src="@drawable/icon_duihao"/>
                         <android.support.v7.widget.AppCompatSpinner
-                            android:id="@+id/city_spiner"
+                            android:id="@+id/spiner_consignor_city"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@null"
-                            bind:selectedPlanet="@={consignorStateCityViewModel.observableSelectedCity}"
-                            app:adapter="@{cityAdapter}"/>
+                            bind:selectedPlanet="@={stateCityViewModel.observableSelectedConsignorCity}"
+                            app:adapter="@{consignorCityAdapter}"/>
                     </RelativeLayout>
                 </LinearLayout>
                 <EditText
@@ -182,7 +186,7 @@
                     android:singleLine="true"
                     android:textSize="16dp"
                     android:inputType="number"
-                    android:onTextChanged="@{recipentStateCityViewModel::onEditTextChanged}"
+                    android:onTextChanged="@{stateCityViewModel::onReciptZipcodTextChanged}"
                     android:text="@={data.recipientZipCode}"
                     android:textColor="@color/color_text"/>
                 <EditText
@@ -197,6 +201,7 @@
                     android:singleLine="true"
                     android:textSize="16dp"
                     android:inputType="text"
+                    android:onTextChanged="@{stateCityViewModel::onReciptAddressChanged}"
                     android:text="@={data.recipientAddress}"
                     android:textColor="@color/color_text"/>
                 <LinearLayout
@@ -218,11 +223,12 @@
                             android:layout_alignParentRight="true"
                             android:src="@drawable/icon_duihao"/>
                         <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spiner_recipt_state"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@null"
-                            bind:selectedPlanet="@={recipentStateCityViewModel.observableSelectedState}"
-                            app:adapter="@{stateAdapter}"/>
+                            bind:selectedPlanet="@={stateCityViewModel.observableSelectedReciptState}"
+                            app:adapter="@{reciptStateAdapter}"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -238,11 +244,12 @@
                             android:layout_alignParentRight="true"
                             android:src="@drawable/icon_duihao"/>
                         <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spiner_recipt_city"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@null"
-                            bind:selectedPlanet="@={recipentStateCityViewModel.observableSelectedCity}"
-                            app:adapter="@{cityAdapter}"/>
+                            bind:selectedPlanet="@={stateCityViewModel.observableSelectedReciptCity}"
+                            app:adapter="@{reciptCityAdapter}"/>
                     </RelativeLayout>
                 </LinearLayout>
                 <EditText
@@ -288,7 +295,8 @@
                     android:singleLine="true"
                     android:textSize="16dp"
                     android:inputType="number"
-                    android:text="@={data.postageFee}"
+                    android:enabled="false"
+                    android:text="@{data.postageFee==null?``:@string/dollar+data.postageFee}"
                     android:textColor="@color/color_text"/>
                 <EditText
                     android:layout_width="match_parent"

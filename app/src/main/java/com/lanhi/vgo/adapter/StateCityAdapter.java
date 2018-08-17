@@ -34,7 +34,7 @@ public class StateCityAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return Integer.valueOf(list.get(position).getId());
     }
 
     @Override

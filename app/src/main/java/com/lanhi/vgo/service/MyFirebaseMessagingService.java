@@ -11,7 +11,10 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.lanhi.ryon.utils.mutils.LogUtils;
 import com.lanhi.vgo.App;
 import com.lanhi.vgo.R;
+import com.lanhi.vgo.common.Common;
 import com.lanhi.vgo.mvvm.view.order.OrderDetailActivity;
+
+import java.util.Map;
 
 /**
  * 一项继承 FirebaseMessagingService 的服务。
@@ -23,11 +26,29 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         LogUtils.d("firebase",remoteMessage.toString());
+        if (remoteMessage.getNotification() != null) {
+            LogUtils.d("Message Notification Body: " + remoteMessage.getNotification().getBody());
+        }else{
+            LogUtils.d("Message Notification Body: " + remoteMessage.getNotification().getBody());
+        }
+        Map<String,String> map = remoteMessage.getData();
+        if(map.containsKey("orderId")){
+            String orderState = map.get("orderState");
+            String orderId = map.get("orderId");
+            String content = Common.getNotifyOrderContent(orderState);
+            Intent intent = new Intent(App.getInstance().getApplicationContext(),OrderDetailActivity.class);
+            intent.putExtra("order_code",orderId);
+            showNotification("VGO","content",intent);
+        }else{
+
+        }
+    }
+
+    private void showNotification(String title, String content, Intent intent) {
         NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(App.getInstance().getApplicationContext(),"1");
-        mBuilder.setContentTitle("测试标题")//设置通知栏标题
-                .setContentText("测试内容")
-                .setTicker("测试通知来啦") //通知首次出现在通知栏，带上升动画效果的
+        mBuilder.setContentTitle(title)//设置通知栏标题
+                .setContentText(content)
                 .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示，一般是系统获取到的时间
                 .setPriority(Notification.PRIORITY_DEFAULT) //设置该通知优先级
                 //  .setAutoCancel(true)//设置这个标志当用户单击面板就可以让通知将自动取消
@@ -36,8 +57,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 //Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
                 .setSmallIcon(R.mipmap.ic_launcher);//设置通知小ICON
 
-
-        Intent intent = new Intent(App.getInstance().getApplicationContext(),OrderDetailActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(App.getInstance().getApplicationContext(), 0, intent, 0);
         mBuilder.setContentIntent(pendingIntent);
 

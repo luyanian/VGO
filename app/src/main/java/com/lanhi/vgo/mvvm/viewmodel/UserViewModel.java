@@ -170,6 +170,7 @@ public class UserViewModel extends AndroidViewModel {
         map.put("method",userData.getCurrentItem()==0? GlobalParams.SIGNIN_TYPE.SIGNIN_WITH_PASSWORD: GlobalParams.SIGNIN_TYPE.SIGNIN_WITH_VERTIFY_CODE);
         map.put("password",userData.getPassword());
         map.put("smsCode",userData.getSmsCode());
+        map.put("usertype",USER_TYPE);
         String json = new Gson().toJson(map);
         ApiRepository.login(json).subscribe(observer);
     }
@@ -334,13 +335,5 @@ public class UserViewModel extends AndroidViewModel {
         map.put("oldPassword",oldPassword);
         String json = new Gson().toJson(map);
         ApiRepository.editUserPassword(json).subscribe(rObserver);
-    }
-    public void testDistanceMetrix(){
-        ApiRepository.testDistanceMetrix().subscribe(new RObserver<String>() {
-            @Override
-            public void onSuccess(String str) {
-                LogUtils.d(str);
-            }
-        });
     }
 }

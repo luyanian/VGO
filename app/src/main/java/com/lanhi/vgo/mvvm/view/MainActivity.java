@@ -3,20 +3,38 @@ package com.lanhi.vgo.mvvm.view;
 import android.arch.lifecycle.MutableLiveData;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
+import com.lanhi.ryon.utils.mutils.LogUtils;
+import com.lanhi.ryon.utils.mutils.SPUtils;
 import com.lanhi.vgo.BaseActivity;
 import com.lanhi.vgo.R;
+import com.lanhi.vgo.api.ApiRepository;
+import com.lanhi.vgo.api.response.BaseResponse;
+import com.lanhi.vgo.api.response.bean.UserInfoDataBean;
+import com.lanhi.vgo.common.Common;
 import com.lanhi.vgo.common.OnMenuSelectorListener;
+import com.lanhi.vgo.common.RObserver;
+import com.lanhi.vgo.common.SPKeys;
 import com.lanhi.vgo.databinding.MainActivityBinding;
 import com.lanhi.vgo.mvvm.view.order.OrderListFragment;
 import com.lanhi.vgo.mvvm.view.order.OrderPublishFragment;
 import com.lanhi.vgo.mvvm.view.user.UserFragment;
+
+import java.util.HashMap;
+import java.util.Map;
+
 @Route(path = "/main/main")
 public class MainActivity extends BaseActivity {
     MainActivityBinding binding;
@@ -33,6 +51,45 @@ public class MainActivity extends BaseActivity {
         initTitleBar();
         initOnMenuSelectorListener();
         changeMenu(1);
+        handleMessage();
+        updateFmcTocken();
+    }
+
+    private void handleMessage() {
+        final Bundle bundle = getIntent().getExtras();
+        if(bundle==null){
+            return;
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(bundle.containsKey("orderId")){
+                    ARouter.getInstance().build("/order/detail").withString("order_code",bundle.getString("orderId")).navigation();
+                }else{
+
+                }
+            }
+        },200);
+
+    }
+
+    private void updateFmcTocken() {
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d("firebase", "Refreshed token: " + refreshedToken);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        if(userInfoData!=null) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("tokenid", Common.getToken());
+            map.put("phone", userInfoData.getAccount_number());
+            map.put("appkey", refreshedToken);
+            String json = new Gson().toJson(map);
+            ApiRepository.getUpdateFMCToken(json).subscribe(new RObserver<BaseResponse>() {
+                @Override
+                public void onSuccess(BaseResponse baseResponse) {
+                    LogUtils.d(baseResponse.getMsg());
+                }
+            });
+        }
     }
 
     private void initTitleBar() {

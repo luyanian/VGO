@@ -1,6 +1,10 @@
 package com.lanhi.vgo.mvvm.model;
+import android.databinding.Bindable;
+import android.databinding.BaseObservable;
 
-public class OrderData {
+import com.lanhi.vgo.BR;
+
+public class OrderData extends BaseObservable {
     private String recipientName;
     private String recipientPhone;
     private String recipientZipCode;
@@ -116,12 +120,14 @@ public class OrderData {
         this.goodsAmount = goodsAmount;
     }
 
+    @Bindable
     public String getPostageFee() {
         return postageFee;
     }
 
     public void setPostageFee(String postageFee) {
         this.postageFee = postageFee;
+        notifyPropertyChanged(BR.postageFee);
     }
 
     public String getPostageTip() {
@@ -163,4 +169,6 @@ public class OrderData {
     public void setConsignorPhone(String consignorPhone) {
         this.consignorPhone = consignorPhone;
     }
+
+
 }

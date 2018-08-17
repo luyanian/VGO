@@ -39,6 +39,4 @@ public class GlobalParams {
         public static final String SIGNIN_WITH_PASSWORD="1";//账号密码登录	1
         public static final String SIGNIN_WITH_VERTIFY_CODE="2";//手机短信验证码登录	2
     }
-
-
 }

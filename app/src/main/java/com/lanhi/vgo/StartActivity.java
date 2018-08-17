@@ -1,11 +1,13 @@
 package com.lanhi.vgo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.firebase.messaging.RemoteMessage;
 import com.lanhi.vgo.common.SPKeys;
 import com.lanhi.ryon.utils.mutils.SPUtils;
 import com.lanhi.ryon.utils.mutils.SpanUtils;
@@ -26,7 +28,7 @@ public class StartActivity extends BaseActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ARouter.getInstance().build("/main/main").navigation();
+                    ARouter.getInstance().build("/main/main").with(getIntent().getExtras()).navigation();
                 }
             },200);
         }
