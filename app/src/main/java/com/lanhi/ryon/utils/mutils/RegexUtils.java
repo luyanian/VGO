@@ -34,6 +34,15 @@ public final class RegexUtils {
     public static boolean isMobileSimple(final CharSequence input) {
         return isMatch(RegexConstants.REGEX_MOBILE_SIMPLE, input);
     }
+    /**
+     * 验证美国手机号
+     *
+     * @param input 待验证文本
+     * @return {@code true}: 匹配<br>{@code false}: 不匹配
+     */
+    public static boolean isUSMobileSimple(final CharSequence input) {
+        return isMatch(RegexConstants.REGEX_US_MOBILE, input);
+    }
 
     /**
      * 验证手机号

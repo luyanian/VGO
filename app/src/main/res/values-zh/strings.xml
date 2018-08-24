@@ -53,11 +53,15 @@
     <string name="hint_input_consignor_phone">请输入发货人电话</string>
     <string name="hint_input_consignor_name">请输入发货人姓名</string>
     <string name="hint_input_consignor_zipCode">请输入发货人邮政编码</string>
+    <string name="hint_input_consignor_state">请选择发货人所在州</string>
+    <string name="hint_input_consignor_city">请选择发货人所在市</string>
     <string name="hint_input_consignor_address">请输入发货人详细街道楼牌号地址</string>
 
     <string name="hint_input_recipient_phone">请输入收货人电话</string>
     <string name="hint_input_recipient_name">请输入收货人姓名</string>
     <string name="hint_input_recipient_zipCode">请输入收货人邮政编码</string>
+    <string name="hint_input_recipient_state">请选择收货人所在州</string>
+    <string name="hint_input_recipient_city">请选择收货人所在市</string>
     <string name="hint_input_recipient_address">请输入收货人详细街道楼牌号地址</string>
     <string name="hint_input_order_desc">请输入配送清单信息</string>
     <string name="hint_input_order_amount">请输入订单金额</string>

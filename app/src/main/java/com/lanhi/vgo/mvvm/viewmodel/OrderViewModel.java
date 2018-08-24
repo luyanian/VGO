@@ -6,9 +6,13 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.lanhi.ryon.utils.mutils.LogUtils;
+import com.lanhi.ryon.utils.mutils.RegexUtils;
+import com.lanhi.ryon.utils.mutils.ToastUtils;
+import com.lanhi.vgo.R;
 import com.lanhi.vgo.api.ApiRepository;
 import com.lanhi.vgo.api.response.BaseResponse;
 import com.lanhi.vgo.api.response.LoginResponse;
@@ -54,10 +58,82 @@ public class OrderViewModel extends AndroidViewModel {
 
     public void orderPublish(RObserver<BaseResponse> rObserver) {
         OrderData orderData = getOrderPublishLiveData().getValue();
+        if(TextUtils.isEmpty(orderData.getRecipientName())){
+            ToastUtils.showShort(R.string.hint_input_recipient_name);
+            return;
+        }
+        if(!RegexUtils.isMobileSimple(orderData.getRecipientPhone())){
+            ToastUtils.showShort(R.string.hint_input_recipient_phone);
+            return;
+        }
+        if(TextUtils.isEmpty(orderData.getRecipientZipCode())){
+            ToastUtils.showShort(R.string.hint_input_recipient_zipCode);
+            return;
+        }
+        if(TextUtils.isEmpty(orderData.getRecipientAddress())){
+            ToastUtils.showShort(R.string.hint_input_recipient_address);
+            return;
+        }
+        if(TextUtils.isEmpty(orderData.getRecipientState())){
+            ToastUtils.showShort(R.string.hint_input_recipient_state);
+            return;
+        }
+        if(TextUtils.isEmpty(orderData.getRecipientCity())){
+            ToastUtils.showShort(R.string.hint_input_recipient_city);
+            return;
+        }
+        if(TextUtils.isEmpty(orderData.getConsignorName())){
+            ToastUtils.showShort(R.string.hint_input_consignor_name);
+            return;
+        }
+        if(TextUtils.isEmpty(orderData.getConsignorPhone())){
+            ToastUtils.showShort(R.string.hint_input_consignor_phone);
+            return;
+        }
+        if(TextUtils.isEmpty(orderData.getConsignorAddress())){
+            ToastUtils.showShort(R.string.hint_input_consignor_address);
+            return;
+        }
+        if(TextUtils.isEmpty(orderData.getConsignorState())){
+            ToastUtils.showShort(R.string.hint_input_consignor_state);
+            return;
+        }
+        if(TextUtils.isEmpty(orderData.getConsignorCity())){
+            ToastUtils.showShort(R.string.hint_input_consignor_city);
+            return;
+        }
+        if(TextUtils.isEmpty(orderData.getConsignorZipCode())){
+            ToastUtils.showShort(R.string.hint_input_consignor_zipCode);
+            return;
+        }
+        if(TextUtils.isEmpty(orderData.getOrderDesc())){
+            ToastUtils.showShort(R.string.hint_input_order_desc);
+            return;
+        }
+        String goodsAmount = orderData.getGoodsAmount();
+        if(!TextUtils.isEmpty(goodsAmount)&&goodsAmount.length()>1){
+            goodsAmount = goodsAmount.substring(1);
+        }else{
+            ToastUtils.showShort(R.string.hint_input_order_amount);
+            return;
+        }
+        String postageFee =orderData.getPostageFee();
+        if(!TextUtils.isEmpty(postageFee)&&postageFee.length()>1){
+            postageFee = postageFee.substring(1);
+        }else{
+            ToastUtils.showShort(R.string.hint_input_postage_fee);
+            return;
+        }
+        String postageTip = orderData.getPostageTip();
+        if(!TextUtils.isEmpty(postageTip)&&postageTip.length()>1){
+            postageTip = postageTip.substring(1);
+        }else{
+            postageTip="";
+        }
         Map map = new HashMap();
         map.put("tokenid", Common.getToken());
         map.put("recipient",orderData.getRecipientName());
-        map.put("recipientPhone",orderData.getRecipientName());
+        map.put("recipientPhone",orderData.getRecipientPhone());
         map.put("recipientZipCode",orderData.getRecipientZipCode());
         map.put("recipientAddress",orderData.getRecipientAddress());
         map.put("recipientState",orderData.getRecipientState());
@@ -69,12 +145,12 @@ public class OrderViewModel extends AndroidViewModel {
         map.put("consignorCity",orderData.getConsignorCity());
         map.put("consignorZipCode",orderData.getConsignorZipCode());
         map.put("orderDesc",orderData.getOrderDesc());
-        map.put("goodsAmount",orderData.getGoodsAmount());
-        map.put("postageFee",orderData.getPostageFee());
-        map.put("postageTip",orderData.getPostageTip());
+
+        map.put("goodsAmount",goodsAmount);
+        map.put("postageFee",postageFee);
+        map.put("postageTip",postageTip);
         map.put("remark",orderData.getRemark());
         map.put("merchantid",orderData.getMerchantid());
-        // TODO: 2018/4/13 发布订单  信息校验
         ApiRepository.publishOrder(new Gson().toJson(map)).subscribe(rObserver);
 
     }

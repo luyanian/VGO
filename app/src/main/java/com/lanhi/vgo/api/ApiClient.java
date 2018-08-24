@@ -3,6 +3,8 @@ package com.lanhi.vgo.api;
 import com.lanhi.vgo.common.Configs;
 import com.orhanobut.logger.Logger;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -54,6 +56,9 @@ public class ApiClient{
                         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
                         builder.addInterceptor(httpLoggingInterceptor);
                         builder.retryOnConnectionFailure(true);
+                        builder.connectTimeout(30, TimeUnit.SECONDS);
+                        builder.readTimeout(30, TimeUnit.SECONDS);
+                        builder.writeTimeout(30, TimeUnit.SECONDS);
 //                      builder.addNetworkInterceptor(new StethoInterceptor());
 //                      BuildConfig.STETHO.addNetworkInterceptor(builder);
                     }

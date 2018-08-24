@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +81,7 @@ public class OrderPublishFragment extends Fragment {
     private void initData(final OrderData orderData) {
         binding.setData(orderData);
         binding.setStateCityViewModel(stateCityViewModel);
+
         stateCityViewModel.getStateLiveData().observe(this, new Observer<GetStatesResponse>() {
             @Override
             public void onChanged(@Nullable GetStatesResponse statesResponse) {
@@ -123,6 +127,7 @@ public class OrderPublishFragment extends Fragment {
                 }
             }
         });
+
         stateCityViewModel.getCurrentReciptSelectedStateData().observe(this, new Observer<StateCityData>() {
             @Override
             public void onChanged(@Nullable StateCityData stateCityData) {
@@ -179,6 +184,7 @@ public class OrderPublishFragment extends Fragment {
                 orderViewModel.orderPublish(new RObserver<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
+                        binding.setFocusable(false);
                         orderViewModel.clearInputInfo();
                         MainActivity mainActivity = (MainActivity) getActivity();
                         if(mainActivity!=null){
@@ -198,7 +204,7 @@ public class OrderPublishFragment extends Fragment {
 
     private void countTimeAndFee(){
         final OrderData orderData = orderViewModel.getOrderPublishLiveData().getValue();
-        if(TextUtils.isEmpty(orderData.getConsignorState())||TextUtils.isEmpty(orderData.getConsignorCity())
+        if(orderData==null||TextUtils.isEmpty(orderData.getConsignorState())||TextUtils.isEmpty(orderData.getConsignorCity())
                 ||TextUtils.isEmpty(orderData.getConsignorAddress())||TextUtils.isEmpty(orderData.getRecipientState())
                 ||TextUtils.isEmpty(orderData.getRecipientCity())||TextUtils.isEmpty(orderData.getRecipientAddress())){
             return;
@@ -228,12 +234,19 @@ public class OrderPublishFragment extends Fragment {
                                     double base_fee = distanceFeeResponse.getData().get(0).getBase_fee();
                                     double add_fee = distanceFeeResponse.getData().get(0).getAdditional_fee();
                                     double distance = distanceBean.getValue()/1000.00;
+                                    SpannableStringBuilder builder = new SpannableStringBuilder();
+                                    ForegroundColorSpan fixTextSpan = new ForegroundColorSpan(getResources().getColor(R.color.colorPrimary));
+                                    String fixText ="";
                                     if(distance>5) {
                                         double driver_fee = base_fee + ((distance-5) * add_fee);
-                                        orderData.setPostageFee(new DecimalFormat("0.00").format(driver_fee));
+                                        fixText = new DecimalFormat("$0.00").format(driver_fee);
                                     }else{
-                                        orderData.setPostageFee(new DecimalFormat("0.00").format(base_fee));
+                                        fixText = new DecimalFormat("$0.00").format(base_fee);
                                     }
+                                    builder.append(fixText);
+                                    builder.setSpan(fixTextSpan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                                    orderData.setPostageFee(builder.toString());
+                                    binding.editPostageFee.setText(builder);
                                 }
                             }
                         });

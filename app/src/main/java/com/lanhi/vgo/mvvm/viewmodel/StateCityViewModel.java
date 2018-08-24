@@ -11,6 +11,7 @@ import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.widget.AppCompatSpinner;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -235,11 +236,11 @@ public class StateCityViewModel extends AndroidViewModel {
         return (StateCityData) spinner.getSelectedItem();
     }
 
-    public void onConsignorAddressChanged(CharSequence s, int start, int before, int count) {
-        consignorAddressData.setValue(s.toString());
+    public void onConsignorAddressChanged(Editable editable) {
+        consignorAddressData.setValue(editable.toString());
     }
-    public void onReciptAddressChanged(CharSequence s, int start, int before, int count) {
-        reciptAddressData.setValue(s.toString());
+    public void onReciptAddressChanged(Editable editable) {
+        reciptAddressData.setValue(editable.toString());
     }
 
     public void onConsignorZipcodTextChanged(CharSequence s, int start, int before, int count) {
@@ -262,8 +263,6 @@ public class StateCityViewModel extends AndroidViewModel {
                 stateCityData1.setStateId(stateCity.getState_id());
                 stateCityData1.setZipCode(stateCity.getZip_code());
                 stateCityData1.setName(stateCity.getState_name());
-                obvSelectedConsignorState.set(stateCityData1);
-
 
                 StateCityData stateCityData2 = new StateCityData();
                 stateCityData2.setType(StateCityData.CITY);
@@ -271,6 +270,10 @@ public class StateCityViewModel extends AndroidViewModel {
                 stateCityData2.setStateId(stateCity.getState_id());
                 stateCityData2.setZipCode(stateCity.getZip_code());
                 stateCityData2.setName(stateCity.getCity_name());
+                stateCityData1.setSelecteCityId(stateCityData2.getId());
+
+                obvSelectedConsignorState.set(stateCityData1);
+                currentConsignorSelectedStateData.setValue(stateCityData1);
                 currentConsignorSelectedCityData.setValue(stateCityData2);
             }
         });
@@ -296,8 +299,6 @@ public class StateCityViewModel extends AndroidViewModel {
                 stateCityData1.setStateId(stateCity.getState_id());
                 stateCityData1.setZipCode(stateCity.getZip_code());
                 stateCityData1.setName(stateCity.getState_name());
-                obvSelectedReciptState.set(stateCityData1);
-
 
                 StateCityData stateCityData2 = new StateCityData();
                 stateCityData2.setType(StateCityData.CITY);
@@ -305,6 +306,10 @@ public class StateCityViewModel extends AndroidViewModel {
                 stateCityData2.setStateId(stateCity.getState_id());
                 stateCityData2.setZipCode(stateCity.getZip_code());
                 stateCityData2.setName(stateCity.getCity_name());
+                stateCityData1.setSelecteCityId(stateCityData2.getId());
+
+                obvSelectedReciptState.set(stateCityData1);
+                currentReciptSelectedStateData.setValue(stateCityData1);
                 currentReciptSelectedCityData.setValue(stateCityData2);
             }
         });
@@ -412,8 +417,8 @@ public class StateCityViewModel extends AndroidViewModel {
             cityId="-1";
             obvSelectedReciptCity.set(null);
         }else {
-            List<GetCityResponse.CityData> temp = mapStateCity.get(stateId).getData();
-            if (temp != null && temp.size() > 0) {
+            if (mapStateCity.get(stateId)!=null&&mapStateCity.get(stateId).getData() != null && mapStateCity.get(stateId).getData().size() > 0) {
+                List<GetCityResponse.CityData> temp = mapStateCity.get(stateId).getData();
                 for (GetCityResponse.CityData cityData : temp) {
                     if (cityData.getId().equals(cityId)) {
                         StateCityData stateCityData = new StateCityData();

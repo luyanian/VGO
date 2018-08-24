@@ -4,6 +4,9 @@
     xmlns:bind="http://schemas.android.com/tools">
     <data>
         <variable
+            name="focusable"
+            type="Boolean"/>
+        <variable
             name="data"
             type="com.lanhi.vgo.mvvm.model.OrderData"/>
         <variable
@@ -28,6 +31,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="@{focusable}"
+        android:focusableInTouchMode="@{focusable}"
         android:orientation="vertical">
         <com.lanhi.vgo.weight.titlebar.Titlebar
             android:layout_width="match_parent"
@@ -95,7 +100,7 @@
                     android:singleLine="true"
                     android:textSize="16dp"
                     android:inputType="text"
-                    android:onTextChanged="@{stateCityViewModel::onConsignorAddressChanged}"
+                    android:afterTextChanged="@{stateCityViewModel::onConsignorAddressChanged}"
                     android:text="@={data.consignorAddress}"
                     android:textColor="@color/color_text"/>
                 <LinearLayout
@@ -201,7 +206,7 @@
                     android:singleLine="true"
                     android:textSize="16dp"
                     android:inputType="text"
-                    android:onTextChanged="@{stateCityViewModel::onReciptAddressChanged}"
+                    android:afterTextChanged="@{stateCityViewModel::onReciptAddressChanged}"
                     android:text="@={data.recipientAddress}"
                     android:textColor="@color/color_text"/>
                 <LinearLayout
@@ -268,7 +273,8 @@
                     android:inputType="text"
                     android:text="@={data.orderDesc}"
                     android:textColor="@color/color_text"/>
-                <EditText
+                <com.lanhi.vgo.weight.FixedEditText
+                    android:id="@+id/edit_goodsAmount"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/shap_tiled_bg"
@@ -279,11 +285,12 @@
                     android:layout_marginTop="2dp"
                     android:singleLine="true"
                     android:textSize="16dp"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:text="@={data.goodsAmount}"
                     android:textColor="@color/color_text"/>
 
-                <EditText
+                <com.lanhi.vgo.weight.FixedEditText
+                    android:id="@+id/edit_postageFee"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/shap_tiled_bg"
@@ -294,11 +301,11 @@
                     android:layout_marginTop="2dp"
                     android:singleLine="true"
                     android:textSize="16dp"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:enabled="false"
-                    android:text="@{data.postageFee==null?``:@string/dollar+data.postageFee}"
                     android:textColor="@color/color_text"/>
-                <EditText
+                <com.lanhi.vgo.weight.FixedEditText
+                    android:id="@+id/edit_postageTip"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/shap_tiled_bg"
@@ -309,7 +316,7 @@
                     android:layout_marginTop="2dp"
                     android:singleLine="true"
                     android:textSize="16dp"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:text="@={data.postageTip}"
                     android:textColor="@color/color_text"/>
                 <EditText
