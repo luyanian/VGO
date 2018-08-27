@@ -122,7 +122,7 @@ public class OrderPublishFragment extends Fragment {
                 consignorCityAdapter.changeData(cityDataLists);
                 stateCityViewModel.setSelectCityById("consignor",stateCityData.getId(),stateCityData.getSelecteCityId());
                 if(!"-1".equals(stateCityData.getId())) {
-                    orderData.setConsignorState(stateCityData.getName());
+                    orderData.setConsignorState(stateCityData.getId());
                     countTimeAndFee();
                 }
             }
@@ -138,7 +138,7 @@ public class OrderPublishFragment extends Fragment {
                 reciptCityAdapter.changeData(cityDataLists);
                 stateCityViewModel.setSelectCityById("recipt",stateCityData.getId(),stateCityData.getSelecteCityId());
                 if(!"-1".equals(stateCityData.getId())) {
-                    orderData.setRecipientState(stateCityData.getName());
+                    orderData.setRecipientState(stateCityData.getId());
                     countTimeAndFee();
                 }
             }
@@ -148,7 +148,7 @@ public class OrderPublishFragment extends Fragment {
             @Override
             public void onChanged(@Nullable StateCityData stateCityData) {
                 if(!"-1".equals(stateCityData.getId())) {
-                    orderData.setConsignorCity(stateCityData.getName());
+                    orderData.setConsignorCity(stateCityData.getId());
                     countTimeAndFee();
                 }
             }
@@ -157,7 +157,7 @@ public class OrderPublishFragment extends Fragment {
             @Override
             public void onChanged(@Nullable StateCityData stateCityData) {
                 if(!"-1".equals(stateCityData.getId())) {
-                    orderData.setRecipientCity(stateCityData.getName());
+                    orderData.setRecipientCity(stateCityData.getId());
                     countTimeAndFee();
                 }
             }

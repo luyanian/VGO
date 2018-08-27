@@ -46,6 +46,7 @@ public class RegistStep2Activity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.user_register_step2_activity);
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         stateCityViewModel = ViewModelProviders.of(this).get(StateCityViewModel.class);
+        stateAdapter = new StateCityAdapter(this);
         initTitleBar();
         initEventListener();
         initDataChanged();
@@ -100,11 +101,8 @@ public class RegistStep2Activity extends BaseActivity {
                 cityDataLists.addAll(stateCityViewModel.getCurrentCitiesData(stateCityData.getId()));
                 StateCityData cityData = new StateCityData("-1","市","-1","000000",StateCityData.CITY);
                 cityData.setSelecteCityId("-1");
-//                consignorStateCityViewModel.getCurrentSelectedCityData().setValue(cityData);
                 cityDataLists.add(0, cityData); //insert a blank item on the top of the list
-
                 cityAdapter.changeData(cityDataLists);
-//                binding.setConsignorCityAdapter(consignorCityAdapter);
 
                 stateCityViewModel.setSelectCityById("consignor",stateCityData.getId(),stateCityData.getSelecteCityId());
             }
