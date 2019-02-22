@@ -10,7 +10,9 @@ import com.lanhi.vgo.api.response.GetVertificationResponse;
 import com.lanhi.vgo.api.response.HotlineResponse;
 import com.lanhi.vgo.api.response.OrderDetailResponse;
 import com.lanhi.vgo.api.response.OrderListResponse;
+import com.lanhi.vgo.api.response.ServiceScopeResponse;
 import com.lanhi.vgo.api.response.UploadFileResponse;
+import com.lanhi.vgo.api.response.UserBillsResponse;
 import com.lanhi.vgo.api.response.UserInfoResponse;
 import com.lanhi.vgo.api.response.WebInfoResponse;
 import com.lanhi.vgo.common.Common;
@@ -186,6 +188,39 @@ public class ApiRepository {
 
     public static Observable<DistanceFeeResponse> getDistanceFee(String str) {
         Observable<DistanceFeeResponse> observable = ApiClient.getApiService().getDistanceFee(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+
+    public static Observable<ServiceScopeResponse> updateServiceScope(String str) {
+        Observable<ServiceScopeResponse> observable = ApiClient.getApiService().updateServiceScope(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+
+    public static Observable<ServiceScopeResponse> getServiceScope(String str) {
+        Observable<ServiceScopeResponse> observable = ApiClient.getApiService().getServiceScope(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+    public static Observable<ServiceScopeResponse> getUserScore(String str) {
+        Observable<ServiceScopeResponse> observable = ApiClient.getApiService().getUserScore(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+    public static Observable<ServiceScopeResponse> getUserScoreRecord(String str) {
+        Observable<ServiceScopeResponse> observable = ApiClient.getApiService().getUserScoreRecord(Common.rsaEncrypt(str))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+
+    public static Observable<UserBillsResponse> getUserBills(String str) {
+        Observable<UserBillsResponse> observable = ApiClient.getApiService().getUserBills(Common.rsaEncrypt(str))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         return observable;

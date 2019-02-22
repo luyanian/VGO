@@ -14,8 +14,8 @@ import android.view.View;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.lanhi.ryon.utils.constant.SPConstants;
 import com.lanhi.ryon.utils.mutils.LogUtils;
 import com.lanhi.ryon.utils.mutils.SPUtils;
 import com.lanhi.vgo.BaseActivity;
@@ -26,7 +26,6 @@ import com.lanhi.vgo.api.response.bean.UserInfoDataBean;
 import com.lanhi.vgo.common.Common;
 import com.lanhi.vgo.common.OnMenuSelectorListener;
 import com.lanhi.vgo.common.RObserver;
-import com.lanhi.vgo.common.SPKeys;
 import com.lanhi.vgo.databinding.MainActivityBinding;
 import com.lanhi.vgo.mvvm.view.order.OrderListFragment;
 import com.lanhi.vgo.mvvm.view.order.OrderPublishFragment;
@@ -76,7 +75,7 @@ public class MainActivity extends BaseActivity {
     private void updateFmcTocken() {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d("firebase", "Refreshed token: " + refreshedToken);
-        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
         if(userInfoData!=null) {
             Map<String, Object> map = new HashMap<>();
             map.put("tokenid", Common.getToken());

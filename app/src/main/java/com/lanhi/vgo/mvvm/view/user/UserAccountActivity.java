@@ -8,11 +8,11 @@ import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.lanhi.ryon.utils.constant.SPConstants;
 import com.lanhi.vgo.BaseActivity;
 import com.lanhi.vgo.R;
 import com.lanhi.vgo.api.response.bean.UserInfoDataBean;
 import com.lanhi.vgo.common.OnEventListener;
-import com.lanhi.vgo.common.SPKeys;
 import com.lanhi.vgo.databinding.UserAccountManagermentActivityBinding;
 import com.lanhi.vgo.mvvm.viewmodel.UserViewModel;
 import com.lanhi.vgo.weight.titlebar.TitleBarOptions;
@@ -34,7 +34,7 @@ public class UserAccountActivity extends BaseActivity {
                 finish();
             }
         });
-        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
         if(userInfoData!=null){
 //            userInfoData.
         }

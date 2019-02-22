@@ -1,6 +1,5 @@
 package com.lanhi.vgo.mvvm.view.user;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,24 +9,20 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.lanhi.vgo.BR;
+import com.lanhi.ryon.utils.constant.SPConstants;
 import com.lanhi.vgo.BaseActivity;
 import com.lanhi.vgo.R;
-import com.lanhi.vgo.api.ApiRepository;
 import com.lanhi.vgo.api.response.GetVertificationResponse;
 import com.lanhi.vgo.api.response.bean.UserInfoDataBean;
 import com.lanhi.vgo.common.CountDownTimerUtils;
 import com.lanhi.vgo.common.GlobalParams;
 import com.lanhi.vgo.common.OnEventListener;
 import com.lanhi.vgo.common.RObserver;
-import com.lanhi.vgo.common.SPKeys;
 import com.lanhi.vgo.databinding.UserLoginActivityBinding;
 import com.lanhi.vgo.api.response.LoginResponse;
-import com.lanhi.vgo.mvvm.model.UserData;
 import com.lanhi.vgo.mvvm.viewmodel.UserViewModel;
 import com.lanhi.vgo.weight.selector.RSelectorChangeLisener;
 import com.lanhi.ryon.utils.mutils.SPUtils;
-import com.lanhi.ryon.utils.mutils.SpanUtils;
 
 /**
  * Created by Administrator on 2018/3/21.
@@ -64,9 +59,9 @@ public class LoginActivity extends BaseActivity {
                 viewModel.login(new RObserver<LoginResponse>() {
                     @Override
                     public void onSuccess(LoginResponse loginResponse) {
-                        SPUtils.getInstance().put(SPKeys.TOKENID,loginResponse.getTokenid());
+                        SPUtils.getInstance(SPConstants.USER.NAME).put(SPConstants.USER.TOKENID,loginResponse.getTokenid());
                         UserInfoDataBean userInfoData = loginResponse.getData().get(0);
-                        SPUtils.getInstance().saveObject(SPKeys.USER_INFO,userInfoData);
+                        SPUtils.getInstance(SPConstants.USER.NAME).saveObject(SPConstants.USER.USER_INFO,userInfoData);
                         ARouter.getInstance().build("/main/main").navigation();
                         finish();
                     }

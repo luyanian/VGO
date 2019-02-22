@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.lanhi.ryon.utils.mutils.LogUtils;
+import com.lanhi.ryon.utils.constant.SPConstants;
 import com.lanhi.ryon.utils.mutils.RegexUtils;
 import com.lanhi.ryon.utils.mutils.SPUtils;
 import com.lanhi.ryon.utils.mutils.ToastUtils;
@@ -26,7 +26,6 @@ import com.lanhi.vgo.api.response.bean.UserInfoDataBean;
 import com.lanhi.vgo.common.Common;
 import com.lanhi.vgo.common.GlobalParams;
 import com.lanhi.vgo.common.RObserver;
-import com.lanhi.vgo.common.SPKeys;
 import com.lanhi.vgo.mvvm.model.StateCityData;
 import com.lanhi.vgo.mvvm.model.UserData;
 
@@ -138,6 +137,10 @@ public class UserViewModel extends AndroidViewModel {
             ToastUtils.showShort(App.getInstance().getResources().getString(R.string.error_ensure_password));
             return;
         }
+        if(TextUtils.isEmpty(registData.getPaypalAccount())){
+            ToastUtils.showShort(App.getInstance().getResources().getString(R.string.error_empty_paypal_account));
+            return;
+        }
         // TODO: 2018/4/2 注册用户 输入信息验证
         Map map = new HashMap();
         map.put("phone",registData.getPhone());
@@ -154,6 +157,7 @@ public class UserViewModel extends AndroidViewModel {
         map.put("checkingAccount",registData.getCheckNum());
         map.put("routingNum",registData.getRoutingNum());
         map.put("dutyNum",registData.getTaxNum());
+        map.put("payEmail",registData.getPaypalAccount());
         map.put("refereeName",registData.getRefereeName());
         map.put("refereePhone",registData.getRefereeTel());
         ApiRepository.regist(new Gson().toJson(map)).subscribe(rObserver);
@@ -201,7 +205,7 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public void loadUserInfo(){
-        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
         if(userInfoData!=null){
             Map map = new HashMap();
             map.put("tokenid", Common.getToken());
@@ -210,7 +214,7 @@ public class UserViewModel extends AndroidViewModel {
             ApiRepository.getUserInfo(json).subscribe(new RObserver<UserInfoResponse>() {
                 @Override
                 public void onSuccess(UserInfoResponse userInfoResponse) {
-                    SPUtils.getInstance().saveObject(SPKeys.USER_INFO,userInfoResponse.getData().get(0));
+                    SPUtils.getInstance(SPConstants.USER.NAME).saveObject(SPConstants.USER.USER_INFO,userInfoResponse.getData().get(0));
                     userInfoResponseMutableLiveData.setValue(userInfoResponse);
                 }
             });
@@ -221,7 +225,7 @@ public class UserViewModel extends AndroidViewModel {
         if(userData==null){
             return;
         }
-        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
         if(userInfoData==null){
             return;
         }
@@ -232,7 +236,7 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public void editUserName(String userName,RObserver<BaseResponse> rObserver){
-        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
         if(userInfoData==null){
             return;
         }
@@ -245,7 +249,7 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public void editUserAccountNum(String checkNum,String routingNum,RObserver<BaseResponse> rObserver){
-        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
         if(userInfoData==null){
             return;
         }
@@ -260,7 +264,7 @@ public class UserViewModel extends AndroidViewModel {
 
     public void updateShopImg(String filePath, RObserver<UploadFileResponse> rObserver) {
         File file = new File(filePath);
-        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
         if(userInfoData!=null){
             ApiRepository.updateShopImg(Common.getToken(),userInfoData.getId(),file).subscribe(rObserver);
         }
@@ -308,7 +312,7 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public void editUserPassword(String oldPassword,String newPassword,String newPassword2,RObserver<BaseResponse> rObserver){
-        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
         if(userInfoData==null){
             return;
         }
@@ -335,5 +339,69 @@ public class UserViewModel extends AndroidViewModel {
         map.put("oldPassword",oldPassword);
         String json = new Gson().toJson(map);
         ApiRepository.editUserPassword(json).subscribe(rObserver);
+    }
+
+    public void getServiceScope(RObserver rObserver){
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
+        if(userInfoData==null){
+            return;
+        }
+        Map map = new HashMap();
+        map.put("tokenid",Common.getToken());
+        map.put("userid",userInfoData.getId());
+        String json = new Gson().toJson(map);
+        ApiRepository.getServiceScope(json).subscribe(rObserver);
+    }
+    public void updateServiceScope(int rating, RObserver rObserver){
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
+        if(userInfoData==null){
+            return;
+        }
+        Map map = new HashMap();
+        map.put("tokenid",Common.getToken());
+        map.put("userid",userInfoData.getId());
+        map.put("average",rating+"");
+        String json = new Gson().toJson(map);
+        ApiRepository.updateServiceScope(json).subscribe(rObserver);
+    }
+
+    public void getUserScore(RObserver rObserver){
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
+        if(userInfoData==null){
+            return;
+        }
+        Map map = new HashMap();
+        map.put("tokenid",Common.getToken());
+        map.put("userid",userInfoData.getId());
+        String json = new Gson().toJson(map);
+        ApiRepository.getUserScore(json).subscribe(rObserver);
+    }
+
+    public void getUserScoreRecord(int page,int size, RObserver rObserver){
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
+        if(userInfoData==null){
+            return;
+        }
+        Map map = new HashMap();
+        map.put("tokenid",Common.getToken());
+        map.put("userid",userInfoData.getId());
+        map.put("pagenum",page+"");
+        map.put("pagecount",size+"");
+        String json = new Gson().toJson(map);
+        ApiRepository.getUserScoreRecord(json).subscribe(rObserver);
+    }
+
+    public void getUserBills(RObserver rObserver){
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
+        if(userInfoData==null){
+            return;
+        }
+        Map map = new HashMap();
+        map.put("tokenid",Common.getToken());
+        map.put("userid",userInfoData.getId());
+//        map.put("pagenum",page+"");
+//        map.put("pagecount",size+"");
+        String json = new Gson().toJson(map);
+        ApiRepository.getUserBills(json).subscribe(rObserver);
     }
 }

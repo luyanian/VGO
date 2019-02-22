@@ -11,7 +11,9 @@ import com.lanhi.vgo.api.response.HotlineResponse;
 import com.lanhi.vgo.api.response.LoginResponse;
 import com.lanhi.vgo.api.response.OrderDetailResponse;
 import com.lanhi.vgo.api.response.OrderListResponse;
+import com.lanhi.vgo.api.response.ServiceScopeResponse;
 import com.lanhi.vgo.api.response.UploadFileResponse;
+import com.lanhi.vgo.api.response.UserBillsResponse;
 import com.lanhi.vgo.api.response.UserInfoResponse;
 import com.lanhi.vgo.api.response.WebInfoResponse;
 
@@ -132,4 +134,24 @@ public interface ApiService{
     @FormUrlEncoded
     @POST("appinterface/distribution_fee.shtml")
     Observable<DistanceFeeResponse> getDistanceFee(@Field("str") String str);
+
+    @FormUrlEncoded
+    @POST("appinterface/update_min_average.shtml")
+    Observable<ServiceScopeResponse> updateServiceScope(@Field("str") String str);
+
+    @FormUrlEncoded
+    @POST("appinterface/getmin_average.shtml")
+    Observable<ServiceScopeResponse> getServiceScope(@Field("str") String str);
+
+    @FormUrlEncoded
+    @POST("appinterface/getAverage.shtml")
+    Observable<ServiceScopeResponse> getUserScore(@Field("str") String str);
+
+    @FormUrlEncoded
+    @POST("appinterface/appinterface/bEvaluateList_m.shtml")
+    Observable<ServiceScopeResponse> getUserScoreRecord(@Field("str") String str);
+
+    @FormUrlEncoded
+    @POST("appinterface/my_bill.shtml")
+    Observable<UserBillsResponse> getUserBills(@Field("str") String str);
 }

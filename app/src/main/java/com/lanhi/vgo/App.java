@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.lanhi.ryon.utils.mutils.language.LanguageType;
+import com.lanhi.ryon.utils.mutils.language.MultiLanguageUtil;
 import com.lanhi.vgo.common.Configs;
 import com.lanhi.ryon.utils.mutils.ActivityPools;
 import com.lanhi.ryon.utils.mutils.Utils;
@@ -31,11 +33,18 @@ public class App extends Application {
         app = this;
         getException();
         Utils.init(this);
+        initLanguage();
         initArouter();
         initlogger();
         registerActivityListener();
     }
-
+    private void initLanguage() {
+        MultiLanguageUtil.init();
+        int languageType = MultiLanguageUtil.getInstance().getLanguageType();
+        if(languageType!=LanguageType.LANGUAGE_FOLLOW_SYSTEM){
+            MultiLanguageUtil.getInstance().updateLanguage(languageType);
+        }
+    }
     private void getException() {
         new Thread().setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
@@ -43,18 +52,6 @@ public class App extends Application {
                 e.printStackTrace();
             }
         });
-    }
-
-    public void changeAppLanguage() {
-        // zh , en , es
-        String sta =  "zh";
-        // 本地语言设置
-        Locale myLocale = new Locale(sta);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
     }
 
     private void initArouter() {

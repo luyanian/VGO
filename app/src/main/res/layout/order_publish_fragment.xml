@@ -111,27 +111,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/shap_tiled_bg_left"
-                        android:layout_marginRight="1dp"
-                        android:layout_weight="1">
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:scaleType="centerInside"
-                            android:layout_centerVertical="true"
-                            android:layout_alignParentRight="true"
-                            android:src="@drawable/icon_duihao"/>
-                        <android.support.v7.widget.AppCompatSpinner
-                            android:id="@+id/spiner_consignor_state"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            bind:selectedPlanet="@={stateCityViewModel.observableSelectedConsignorState}"
-                            app:adapter="@{consignorStateAdapter}"/>
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
                         android:background="@drawable/shap_tiled_bg_right"
                         android:layout_marginLeft="1dp"
                         android:layout_weight="1">
@@ -149,6 +128,27 @@
                             android:background="@null"
                             bind:selectedPlanet="@={stateCityViewModel.observableSelectedConsignorCity}"
                             app:adapter="@{consignorCityAdapter}"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shap_tiled_bg_left"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:scaleType="centerInside"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/icon_duihao"/>
+                        <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spiner_consignor_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            bind:selectedPlanet="@={stateCityViewModel.observableSelectedConsignorState}"
+                            app:adapter="@{consignorStateAdapter}"/>
                     </RelativeLayout>
                 </LinearLayout>
                 <EditText
@@ -217,27 +217,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/shap_tiled_bg_left"
-                        android:layout_marginRight="1dp"
-                        android:layout_weight="1">
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:scaleType="centerInside"
-                            android:layout_centerVertical="true"
-                            android:layout_alignParentRight="true"
-                            android:src="@drawable/icon_duihao"/>
-                        <android.support.v7.widget.AppCompatSpinner
-                            android:id="@+id/spiner_recipt_state"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            bind:selectedPlanet="@={stateCityViewModel.observableSelectedReciptState}"
-                            app:adapter="@{reciptStateAdapter}"/>
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
                         android:background="@drawable/shap_tiled_bg_right"
                         android:layout_marginLeft="1dp"
                         android:layout_weight="1">
@@ -255,6 +234,27 @@
                             android:background="@null"
                             bind:selectedPlanet="@={stateCityViewModel.observableSelectedReciptCity}"
                             app:adapter="@{reciptCityAdapter}"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shap_tiled_bg_left"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:scaleType="centerInside"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/icon_duihao"/>
+                        <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spiner_recipt_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            bind:selectedPlanet="@={stateCityViewModel.observableSelectedReciptState}"
+                            app:adapter="@{reciptStateAdapter}"/>
                     </RelativeLayout>
                 </LinearLayout>
                 <EditText

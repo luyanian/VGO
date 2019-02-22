@@ -77,6 +77,7 @@ public class OrderDetailResponse extends BaseResponse {
         private String goods_receipt_name;
         private String merchant;
         private String order_fee;
+        private String user_name;
         private String distribution_fee;
         private TimeBean picktime;
         private String distribution_list;
@@ -292,6 +293,14 @@ public class OrderDetailResponse extends BaseResponse {
 
         public void setOrder_fee(String order_fee) {
             this.order_fee = order_fee;
+        }
+
+        public String getUser_name() {
+            return user_name;
+        }
+
+        public void setUser_name(String user_name) {
+            this.user_name = user_name;
         }
 
         public String getDistribution_fee() {

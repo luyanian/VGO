@@ -58,6 +58,10 @@ public class Titlebar extends RelativeLayout{
         binding.setTitle(text);
     }
 
+    public void setBtnBackVisibility(boolean isShow){
+        binding.setShowLeftBack(isShow);
+    }
+
     public void setTitleBarOptions(TitleBarOptions titleBarOptions) {
         binding.setOptions(titleBarOptions);
     }

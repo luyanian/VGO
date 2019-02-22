@@ -100,4 +100,5 @@ dependencies {
     //permissionsdispatcher
     implementation deps.hotchemi.dispatcher
     annotationProcessor deps.hotchemi.processor
+    implementation 'org.greenrobot:eventbus:3.0.0'
 }

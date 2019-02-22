@@ -108,7 +108,7 @@ public class OrderPublishFragment extends Fragment {
                 reciptCityAdapter.changeData(cityDataLists);
                 binding.setReciptCityAdapter(reciptCityAdapter);
 
-                stateCityViewModel.setSelectStateById("consignor",orderData.getConsignorState(),orderData.getConsignorCity());
+                stateCityViewModel.setSelectStateById("consignor",orderData.getConsignorStateId(),orderData.getConsignorCityId());
             }
         });
 
@@ -122,7 +122,8 @@ public class OrderPublishFragment extends Fragment {
                 consignorCityAdapter.changeData(cityDataLists);
                 stateCityViewModel.setSelectCityById("consignor",stateCityData.getId(),stateCityData.getSelecteCityId());
                 if(!"-1".equals(stateCityData.getId())) {
-                    orderData.setConsignorState(stateCityData.getId());
+                    orderData.setConsignorStateId(stateCityData.getId());
+                    orderData.setConsignorStateName(stateCityData.getName());
                     countTimeAndFee();
                 }
             }
@@ -138,7 +139,8 @@ public class OrderPublishFragment extends Fragment {
                 reciptCityAdapter.changeData(cityDataLists);
                 stateCityViewModel.setSelectCityById("recipt",stateCityData.getId(),stateCityData.getSelecteCityId());
                 if(!"-1".equals(stateCityData.getId())) {
-                    orderData.setRecipientState(stateCityData.getId());
+                    orderData.setRecipientStateId(stateCityData.getId());
+                    orderData.setRecipientStateName(stateCityData.getName());
                     countTimeAndFee();
                 }
             }
@@ -148,7 +150,8 @@ public class OrderPublishFragment extends Fragment {
             @Override
             public void onChanged(@Nullable StateCityData stateCityData) {
                 if(!"-1".equals(stateCityData.getId())) {
-                    orderData.setConsignorCity(stateCityData.getId());
+                    orderData.setConsignorCityId(stateCityData.getId());
+                    orderData.setConsignorCityName(stateCityData.getName());
                     countTimeAndFee();
                 }
             }
@@ -157,7 +160,8 @@ public class OrderPublishFragment extends Fragment {
             @Override
             public void onChanged(@Nullable StateCityData stateCityData) {
                 if(!"-1".equals(stateCityData.getId())) {
-                    orderData.setRecipientCity(stateCityData.getId());
+                    orderData.setRecipientCityId(stateCityData.getId());
+                    orderData.setRecipientCityName(stateCityData.getName());
                     countTimeAndFee();
                 }
             }
@@ -204,13 +208,13 @@ public class OrderPublishFragment extends Fragment {
 
     private void countTimeAndFee(){
         final OrderData orderData = orderViewModel.getOrderPublishLiveData().getValue();
-        if(orderData==null||TextUtils.isEmpty(orderData.getConsignorState())||TextUtils.isEmpty(orderData.getConsignorCity())
-                ||TextUtils.isEmpty(orderData.getConsignorAddress())||TextUtils.isEmpty(orderData.getRecipientState())
-                ||TextUtils.isEmpty(orderData.getRecipientCity())||TextUtils.isEmpty(orderData.getRecipientAddress())){
+        if(orderData==null||TextUtils.isEmpty(orderData.getConsignorStateName())||TextUtils.isEmpty(orderData.getConsignorCityName())
+                ||TextUtils.isEmpty(orderData.getConsignorAddress())||TextUtils.isEmpty(orderData.getRecipientStateName())
+                ||TextUtils.isEmpty(orderData.getRecipientCityName())||TextUtils.isEmpty(orderData.getRecipientAddress())){
             return;
         }
-        String from = orderData.getConsignorState()+orderData.getConsignorCity()+orderData.getConsignorAddress();
-        String to = orderData.getRecipientState()+orderData.getRecipientCity()+orderData.getRecipientAddress();
+        String from = orderData.getConsignorStateName()+orderData.getConsignorCityName()+orderData.getConsignorAddress();
+        String to = orderData.getRecipientStateName()+orderData.getRecipientCityName()+orderData.getRecipientAddress();
         Common.getDistance(from, to, new Consumer<DistanceMatrixResponse>() {
             @Override
             public void accept(DistanceMatrixResponse distanceMatrixResponse) throws Exception {
@@ -224,7 +228,7 @@ public class OrderPublishFragment extends Fragment {
                             .get(0).getElements().get(0).getDuration();
                     final DistanceMatrixResponse.RowsBean.ElementsBean.DistanceBean distanceBean = distanceMatrixResponse.getRows()
                             .get(0).getElements().get(0).getDistance();
-                    if(durationBean.getValue()>0){
+                    if(distanceBean.getValue()>0){
                         Map map = new HashMap();
                         map.put("tokenid", Common.getToken());
                         ApiRepository.getDistanceFee(new Gson().toJson(map)).subscribe(new RObserver<DistanceFeeResponse>() {
@@ -250,6 +254,9 @@ public class OrderPublishFragment extends Fragment {
                                 }
                             }
                         });
+                    }
+                    if(durationBean.getValue()>0){
+                        orderData.setTimeValue(distanceBean.getText());
                     }
                 }
             }

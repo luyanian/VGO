@@ -9,10 +9,10 @@ import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.lanhi.ryon.utils.constant.SPConstants;
 import com.lanhi.vgo.BaseActivity;
 import com.lanhi.vgo.R;
 import com.lanhi.vgo.api.response.GetStatesResponse;
-import com.lanhi.vgo.common.SPKeys;
 import com.lanhi.vgo.mvvm.model.StateCityData;
 import com.lanhi.vgo.adapter.StateCityAdapter;
 import com.lanhi.vgo.api.response.BaseResponse;
@@ -47,6 +47,7 @@ public class RegistStep2Activity extends BaseActivity {
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         stateCityViewModel = ViewModelProviders.of(this).get(StateCityViewModel.class);
         stateAdapter = new StateCityAdapter(this);
+        cityAdapter = new StateCityAdapter(this);
         initTitleBar();
         initEventListener();
         initDataChanged();
@@ -125,7 +126,7 @@ public class RegistStep2Activity extends BaseActivity {
                 userViewModel.regist(currentSelectedStateCityData,new RObserver<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
-                        SPUtils.getInstance().put(SPKeys.TOKENID,baseResponse.getTokenid());
+                        SPUtils.getInstance(SPConstants.USER.NAME).put(SPConstants.USER.TOKENID,baseResponse.getTokenid());
                         ARouter.getInstance().build("/user/login").navigation();
                         ActivityPools.finishAllExcept(LoginActivity.class);
                     }

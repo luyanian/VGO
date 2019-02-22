@@ -38,6 +38,7 @@
         <activity android:name=".mvvm.view.user.UserFinancialManagementActivity"/>
         <activity android:name=".mvvm.view.setting.WebViewActivity"/>
         <activity android:name=".mvvm.view.setting.MoreActivity"/>
+        <activity android:name=".mvvm.view.setting.LanguageChangeActivity"/>
 
         <meta-data android:name="firebase_messaging_auto_init_enabled" android:value="true" />
         <service

@@ -30,8 +30,8 @@
     <string name="btn_vertify_right_now">立即验证</string>
     <string name="btn_order_publish">发布订单</string>
     <string name="btn_order_call_delivery">联系配送员</string>
-    <string name="btn_order_publish_cancel">清空信息</string>
     <string name="btn_order_list_publish_cancel">取消发布</string>
+    <string name="btn_order_publish_cancel">清空信息</string>
     <string name="btn_order_list_view_detail">查看详情</string>
 
     <string name="hint_phone_num">手机号</string>
@@ -47,6 +47,7 @@
     <string name="hint_input_check_account">请输入支票账户</string>
     <string name="hint_input_routing_num">请输入 Routing Number</string>
     <string name="hint_input_tax_num">请输入税号</string>
+    <string name="hint_input_paypal_account">请输入结算paypal账号</string>
     <string name="hint_input_referee_name">请输入推荐人姓名(选填)</string>
     <string name="hint_input_referee_tel">请输入推荐人电话(选填)</string>
 
@@ -124,6 +125,7 @@
     <string name="error_account_not_exsit">账户不存在</string>
     <string name="error_user_password">密码错误</string>
     <string name="error_user_applying">尚未通过审核</string>
+    <string name="error_empty_paypal_account">请输入结算paypal账号</string>
     <string name="error_referee_not_exist">推荐人不存在</string>
     <string name="error_account_already_exist">该手机号已被注册</string>
     <string name="error_format_mobile">手机号格式不正确</string>
@@ -136,5 +138,30 @@
     <string name="error_empty_verCode">请输入收到的短信验证码</string>
     <string name="error_faild_verCode">短信验证码错误</string>
     <string name="dollar">$</string>
+    <string name="language_zh">简体中文</string>
+    <string name="language_en_rUs">English</string>
+    <string name="language_es_rUs">Español</string>
+
+    <string name="txt_select_language">请选择您所需要的语种</string>
+    <string name="setting_language">设置语言</string>
+    <string name="txt_user_service_scope">服务范围</string>
+    <string name="txt_user_score">信用星级</string>
+    <string name="txt_account_num">支票账户：</string>
+    <string name="txt_routing_num">汇款路径账户：</string>
+    <string name="txt_navigation">一键导航</string>
+
+    <string name="txt_user_bills_order_num">订单编号：</string>
+    <string name="txt_user_bills_cosume_fee">消费金额：</string>
+    <string name="txt_user_bills_drive_fee">配送费用：</string>
+    <string name="txt_user_bills_service_fee">手续费用：</string>
+    <string name="txt_user_bills_real_income">实际收入：</string>
+    <string name="txt_user_bills_recommend_date">推荐日期：</string>
+    <string name="txt_user_bills_recommend_reward">推荐奖励：</string>
+    <string name="txt_user_bills_withdraw_cash_date">提现日期：</string>
+    <string name="txt_user_bills_withdraw_cash_amount">提现金额：</string>
+    <string name="txt_user_bills_rechange_date">充值日期：</string>
+    <string name="txt_user_bills_rechange_amount">充值金额：</string>
+    <string name="txt_user_bills_balance_balance">待结算金额：</string>
+    <string name="txt_user_bills_present_balance">可提现金额：</string>
 
 </resources>

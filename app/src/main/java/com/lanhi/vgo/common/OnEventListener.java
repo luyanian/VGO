@@ -27,6 +27,9 @@ public class OnEventListener {
     public void viewUserShop(View v){}
     public void viewUserAccunt(View v){}
     public void viewUserFinancial(View v){}
+    public void viewServiceScope(View v){}
+    public void viewChangedLanguage(View v){}
+    public void viewMyScore(View v){}
     public void viewUserMore(View v){}
     public void viewWebView(View v,int flag){}
 
@@ -38,5 +41,5 @@ public class OnEventListener {
     public void viewUserAccountInfo(View v){}
     public void viewPasswordEdit(View v){}
     public void onclickHotLine(View v,String phone){}
-    public void callDelevery(View v,String phone){}
+    public void callPhone(View v,String phone){}
 }

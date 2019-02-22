@@ -16,7 +16,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         BarUtils.setStatusBarAlpha(this,1);
-        App.getInstance().changeAppLanguage();
+//        App.getInstance().changeAppLanguage();
 
     }
 

@@ -7,14 +7,13 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.lanhi.ryon.utils.constant.SPConstants;
 import com.lanhi.vgo.BaseActivity;
 import com.lanhi.vgo.R;
 import com.lanhi.vgo.api.response.BaseResponse;
-import com.lanhi.vgo.api.response.LoginResponse;
 import com.lanhi.vgo.api.response.bean.UserInfoDataBean;
 import com.lanhi.vgo.common.OnEventListener;
 import com.lanhi.vgo.common.RObserver;
-import com.lanhi.vgo.common.SPKeys;
 import com.lanhi.vgo.databinding.UserAccountNumEditActivityBinding;
 import com.lanhi.vgo.mvvm.model.UserData;
 import com.lanhi.vgo.mvvm.viewmodel.UserViewModel;
@@ -38,7 +37,7 @@ public class UserAccountNumEditActivity extends BaseActivity {
                 finish();
             }
         });
-        UserInfoDataBean userInfo = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfo = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
         UserData userData = new UserData();
         if(userInfo!=null){
             userData.setCheckNum(userInfo.getChecking_account());

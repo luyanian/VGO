@@ -3,33 +3,27 @@ package com.lanhi.vgo.mvvm.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.lanhi.ryon.utils.mutils.LogUtils;
+import com.lanhi.ryon.utils.constant.SPConstants;
 import com.lanhi.ryon.utils.mutils.RegexUtils;
 import com.lanhi.ryon.utils.mutils.ToastUtils;
 import com.lanhi.vgo.R;
 import com.lanhi.vgo.api.ApiRepository;
 import com.lanhi.vgo.api.response.BaseResponse;
-import com.lanhi.vgo.api.response.LoginResponse;
 import com.lanhi.vgo.api.response.OrderDetailResponse;
 import com.lanhi.vgo.api.response.OrderListResponse;
 import com.lanhi.vgo.api.response.bean.UserInfoDataBean;
 import com.lanhi.vgo.common.Common;
 import com.lanhi.vgo.common.RObserver;
-import com.lanhi.vgo.common.SPKeys;
 import com.lanhi.vgo.mvvm.model.OrderData;
 import com.lanhi.ryon.utils.mutils.SPUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import io.reactivex.functions.Consumer;
 
 public class OrderViewModel extends AndroidViewModel {
 
@@ -39,13 +33,15 @@ public class OrderViewModel extends AndroidViewModel {
     public OrderViewModel(@NonNull Application application) {
         super(application);
         OrderData orderData = new OrderData();
-        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
         if(userInfoData!=null){
             orderData.setConsignorName(userInfoData.getUser_name());
             orderData.setConsignorAddress(userInfoData.getAddressinfo());
-            orderData.setConsignorCity(userInfoData.getCtiyinfo());
+            orderData.setConsignorCityId(userInfoData.getCtiyinfo());
+            orderData.setConsignorCityName(userInfoData.getCity_name());
             orderData.setConsignorPhone(userInfoData.getAccount_number());
-            orderData.setConsignorState(userInfoData.getStateinfo());
+            orderData.setConsignorStateId(userInfoData.getStateinfo());
+            orderData.setConsignorStateName(userInfoData.getState_name());
             orderData.setConsignorZipCode(userInfoData.getPostal_code());
             orderData.setMerchantid(userInfoData.getId());
         }
@@ -74,11 +70,11 @@ public class OrderViewModel extends AndroidViewModel {
             ToastUtils.showShort(R.string.hint_input_recipient_address);
             return;
         }
-        if(TextUtils.isEmpty(orderData.getRecipientState())){
+        if(TextUtils.isEmpty(orderData.getRecipientStateId())){
             ToastUtils.showShort(R.string.hint_input_recipient_state);
             return;
         }
-        if(TextUtils.isEmpty(orderData.getRecipientCity())){
+        if(TextUtils.isEmpty(orderData.getRecipientCityId())){
             ToastUtils.showShort(R.string.hint_input_recipient_city);
             return;
         }
@@ -94,11 +90,11 @@ public class OrderViewModel extends AndroidViewModel {
             ToastUtils.showShort(R.string.hint_input_consignor_address);
             return;
         }
-        if(TextUtils.isEmpty(orderData.getConsignorState())){
+        if(TextUtils.isEmpty(orderData.getConsignorStateId())){
             ToastUtils.showShort(R.string.hint_input_consignor_state);
             return;
         }
-        if(TextUtils.isEmpty(orderData.getConsignorCity())){
+        if(TextUtils.isEmpty(orderData.getConsignorCityId())){
             ToastUtils.showShort(R.string.hint_input_consignor_city);
             return;
         }
@@ -136,16 +132,15 @@ public class OrderViewModel extends AndroidViewModel {
         map.put("recipientPhone",orderData.getRecipientPhone());
         map.put("recipientZipCode",orderData.getRecipientZipCode());
         map.put("recipientAddress",orderData.getRecipientAddress());
-        map.put("recipientState",orderData.getRecipientState());
-        map.put("recipientCity",orderData.getRecipientCity());
+        map.put("recipientState",orderData.getRecipientStateId());
+        map.put("recipientCity",orderData.getRecipientCityId());
         map.put("consignor",orderData.getConsignorName());
         map.put("consignorPhone",orderData.getConsignorPhone());
         map.put("consignorAddress",orderData.getConsignorAddress());
-        map.put("consignorState",orderData.getConsignorState());
-        map.put("consignorCity",orderData.getConsignorCity());
+        map.put("consignorState",orderData.getConsignorStateId());
+        map.put("consignorCity",orderData.getConsignorCityId());
         map.put("consignorZipCode",orderData.getConsignorZipCode());
         map.put("orderDesc",orderData.getOrderDesc());
-
         map.put("goodsAmount",goodsAmount);
         map.put("postageFee",postageFee);
         map.put("postageTip",postageTip);
@@ -157,13 +152,15 @@ public class OrderViewModel extends AndroidViewModel {
 
     public void clearInputInfo() {
         OrderData orderData = new OrderData();
-        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
         if(userInfoData!=null){
             orderData.setConsignorName(userInfoData.getUser_name());
             orderData.setConsignorAddress(userInfoData.getAddressinfo());
-            orderData.setConsignorCity(userInfoData.getCtiyinfo());
+            orderData.setConsignorCityId(userInfoData.getCtiyinfo());
+            orderData.setConsignorCityName(userInfoData.getCity_name());
             orderData.setConsignorPhone(userInfoData.getAccount_number());
-            orderData.setConsignorState(userInfoData.getStateinfo());
+            orderData.setConsignorStateId(userInfoData.getStateinfo());
+            orderData.setConsignorStateName(userInfoData.getState_name());
             orderData.setConsignorZipCode(userInfoData.getPostal_code());
             orderData.setMerchantid(userInfoData.getId());
             orderPublishLiveData.setValue(orderData);
@@ -176,7 +173,7 @@ public class OrderViewModel extends AndroidViewModel {
 
     public synchronized void loadOrderList(final String order_state, final int pagenum) {
         Map map = new HashMap();
-        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance().readObject(SPKeys.USER_INFO);
+        UserInfoDataBean userInfoData = (UserInfoDataBean) SPUtils.getInstance(SPConstants.USER.NAME).readObject(SPConstants.USER.USER_INFO);
         if(userInfoData!=null){
             map.put("merchantid",userInfoData.getId());
             map.put("order_state",order_state);

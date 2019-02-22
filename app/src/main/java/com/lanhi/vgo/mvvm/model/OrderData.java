@@ -9,11 +9,15 @@ public class OrderData extends BaseObservable {
     private String recipientPhone;
     private String recipientZipCode;
     private String recipientAddress;
-    private String recipientState;
-    private String recipientCity;
+    private String recipientStateId;
+    private String recipientStateName;
+    private String recipientCityId;
+    private String recipientCityName;
     private String consignorAddress;
-    private String consignorState;
-    private String consignorCity;
+    private String consignorStateId;
+    private String consignorStateName;
+    private String consignorCityId;
+    private String consignorCityName;
     private String consignorZipCode;
     private String orderDesc;
     private String goodsAmount;
@@ -23,6 +27,7 @@ public class OrderData extends BaseObservable {
     private String merchantid;
     private String consignorName;
     private String consignorPhone;
+    private String timeValue;
 
     public String getRecipientName() {
         return recipientName;
@@ -56,20 +61,36 @@ public class OrderData extends BaseObservable {
         this.recipientAddress = recipientAddress;
     }
 
-    public String getRecipientState() {
-        return recipientState;
+    public String getRecipientStateId() {
+        return recipientStateId;
     }
 
-    public void setRecipientState(String recipientState) {
-        this.recipientState = recipientState;
+    public void setRecipientStateId(String recipientStateId) {
+        this.recipientStateId = recipientStateId;
     }
 
-    public String getRecipientCity() {
-        return recipientCity;
+    public String getRecipientStateName() {
+        return recipientStateName;
     }
 
-    public void setRecipientCity(String recipientCity) {
-        this.recipientCity = recipientCity;
+    public void setRecipientStateName(String recipientStateName) {
+        this.recipientStateName = recipientStateName;
+    }
+
+    public String getRecipientCityId() {
+        return recipientCityId;
+    }
+
+    public void setRecipientCityId(String recipientCityId) {
+        this.recipientCityId = recipientCityId;
+    }
+
+    public String getRecipientCityName() {
+        return recipientCityName;
+    }
+
+    public void setRecipientCityName(String recipientCityName) {
+        this.recipientCityName = recipientCityName;
     }
 
     public String getConsignorAddress() {
@@ -80,20 +101,36 @@ public class OrderData extends BaseObservable {
         this.consignorAddress = consignorAddress;
     }
 
-    public String getConsignorState() {
-        return consignorState;
+    public String getConsignorStateId() {
+        return consignorStateId;
     }
 
-    public void setConsignorState(String consignorState) {
-        this.consignorState = consignorState;
+    public void setConsignorStateId(String consignorStateId) {
+        this.consignorStateId = consignorStateId;
     }
 
-    public String getConsignorCity() {
-        return consignorCity;
+    public String getConsignorStateName() {
+        return consignorStateName;
     }
 
-    public void setConsignorCity(String consignorCity) {
-        this.consignorCity = consignorCity;
+    public void setConsignorStateName(String consignorStateName) {
+        this.consignorStateName = consignorStateName;
+    }
+
+    public String getConsignorCityId() {
+        return consignorCityId;
+    }
+
+    public void setConsignorCityId(String consignorCityId) {
+        this.consignorCityId = consignorCityId;
+    }
+
+    public String getConsignorCityName() {
+        return consignorCityName;
+    }
+
+    public void setConsignorCityName(String consignorCityName) {
+        this.consignorCityName = consignorCityName;
     }
 
     public String getConsignorZipCode() {
@@ -170,5 +207,11 @@ public class OrderData extends BaseObservable {
         this.consignorPhone = consignorPhone;
     }
 
+    public String getTimeValue() {
+        return timeValue;
+    }
 
+    public void setTimeValue(String timeValue) {
+        this.timeValue = timeValue;
+    }
 }

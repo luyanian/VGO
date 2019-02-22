@@ -15,7 +15,6 @@ public final class RegexConstants {
      */
     public static final String REGEX_US_MOBILE=" /^(\\+?1)?[2-9]\\d{2}[2-9](?!11)\\d{6}$/";
 
-
     /**
      * 正则：手机号（简单）
      */

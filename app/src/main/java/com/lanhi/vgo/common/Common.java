@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.lanhi.ryon.utils.constant.SPConstants;
 import com.lanhi.ryon.utils.mutils.TimeUtils;
 import com.lanhi.vgo.App;
 import com.lanhi.vgo.R;
@@ -58,7 +59,7 @@ public class Common {
         }
     }
     public static String getToken(){
-        return SPUtils.getInstance().getString(SPKeys.TOKENID);
+        return SPUtils.getInstance(SPConstants.USER.NAME).getString(SPConstants.USER.TOKENID);
     }
 
     public static String getOrderStateString(String state){
